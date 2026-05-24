@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Template Preview – Papaya Insurance</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #0F172A;
+      color: #F1F5F9;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: #1E293B;
+      border-right: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid #334155;
+    }
+    .sidebar-header .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #F1F5F9;
+    }
+    .sidebar-header .subtitle {
+      font-size: 12px;
+      color: #64748B;
+      margin-top: 4px;
+    }
+    .sidebar nav {
+      padding: 12px 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #475569;
+      padding: 8px 20px 4px;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      color: #94A3B8;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .nav-btn:hover {
+      background: #0F172A;
+      color: #F1F5F9;
+    }
+    .nav-btn.active {
+      background: #0F172A;
+      color: #F1F5F9;
+      border-left-color: #2563EB;
+    }
+    .nav-btn .icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+    .nav-btn .badge {
+      margin-left: auto;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .badge-neutral { background: #334155; color: #94A3B8; }
+    .badge-green { background: #064E3B; color: #6EE7B7; }
+    .badge-red { background: #450A0A; color: #FCA5A5; }
+
+    /* Main area */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .topbar {
+      background: #1E293B;
+      border-bottom: 1px solid #334155;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #F1F5F9;
+    }
+    .topbar-meta {
+      font-size: 12px;
+      color: #64748B;
+    }
+    .viewport-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .viewport-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: none;
+      color: #94A3B8;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .viewport-btn:hover, .viewport-btn.active {
+      background: #2563EB;
+      border-color: #2563EB;
+      color: #FFFFFF;
+    }
+
+    /* Preview area */
+    .preview-area {
+      flex: 1;
+      overflow: auto;
+      padding: 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .preview-frame {
+      width: 100%;
+      max-width: 600px;
+      transition: max-width 0.2s;
+      background: #F3F4F6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .preview-frame.mobile {
+      max-width: 375px;
+    }
+    .preview-frame.desktop {
+      max-width: 900px;
+    }
+    .preview-content {
+      width: 100%;
+    }
+
+    /* Loading / empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 40px;
+      color: #475569;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-state h2 { margin: 0 0 8px; font-size: 20px; color: #64748B; }
+    .empty-state p { margin: 0; font-size: 14px; }
+
+    @media (max-width: 640px) {
+      .sidebar { width: 100%; position: fixed; bottom: 0; z-index: 10; flex-direction: row; height: auto; }
+      .sidebar-header { display: none; }
+      .sidebar nav { display: flex; padding: 8px; overflow-x: auto; }
+      .nav-label { display: none; }
+      .nav-btn { flex-direction: column; gap: 4px; padding: 8px 12px; font-size: 11px; border-left: none; border-bottom: 3px solid transparent; min-width: 80px; align-items: center; }
+      .nav-btn.active { border-bottom-color: #2563EB; border-left-color: transparent; }
+      .nav-btn .badge { display: none; }
+      .layout { flex-direction: column; }
+      .main { padding-bottom: 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">🍍 Papaya Insurance</div>
+      <div class="subtitle">Email Template Preview</div>
+    </div>
+    <nav>
+      <div class="nav-label">Claim Lifecycle</div>
+      <button class="nav-btn active" data-template="claim_submitted" onclick="loadTemplate(this)">
+        <span class="icon">📨</span>
+        <span>Claim Submitted</span>
+        <span class="badge badge-neutral">1</span>
+      </button>
+      <button class="nav-btn" data-template="documents_received" onclick="loadTemplate(this)">
+        <span class="icon">📂</span>
+        <span>Documents Received</span>
+        <span class="badge badge-neutral">2</span>
+      </button>
+      <button class="nav-btn" data-template="under_review" onclick="loadTemplate(this)">
+        <span class="icon">🔍</span>
+        <span>Under Review</span>
+        <span class="badge badge-neutral">3</span>
+      </button>
+      <button class="nav-btn" data-template="approved" onclick="loadTemplate(this)">
+        <span class="icon">✅</span>
+        <span>Approved</span>
+        <span class="badge badge-green">4</span>
+      </button>
+      <button class="nav-btn" data-template="rejected" onclick="loadTemplate(this)">
+        <span class="icon">❌</span>
+        <span>Rejected</span>
+        <span class="badge badge-red">5</span>
+      </button>
+      <button class="nav-btn" data-template="payment_sent" onclick="loadTemplate(this)">
+        <span class="icon">💸</span>
+        <span>Payment Sent</span>
+        <span class="badge badge-green">6</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="current-title">Claim Submitted</div>
+        <div class="topbar-meta" id="current-meta">claim_submitted.html · Sample data</div>
+      </div>
+      <div class="viewport-btns">
+        <button class="viewport-btn" onclick="setViewport('mobile', this)">📱 Mobile</button>
+        <button class="viewport-btn active" onclick="setViewport('email', this)">✉️ Email (600px)</button>
+        <button class="viewport-btn" onclick="setViewport('desktop', this)">🖥 Desktop</button>
+      </div>
+    </div>
+    <div class="preview-area">
+      <div class="preview-frame" id="preview-frame">
+        <div class="preview-content" id="preview-content"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const sampleData = {
+  claim_submitted: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    submission_date: 'May 25, 2024',
+    policy_number: 'POL-2023-88721',
+  },
+  documents_received: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    document_1: 'Hospital Invoice.pdf',
+    document_2: 'Medical Certificate.pdf',
+    document_3: 'Discharge Summary.pdf',
+    document_count: '3',
+    received_date: 'May 26, 2024',
+  },
+  under_review: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    assessor_name: 'Tran Thi Bich',
+    review_start_date: 'May 27, 2024',
+    estimated_days: '3–5',
+  },
+  approved: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    policy_number: 'POL-2023-88721',
+    original_amount: '15,000,000 VND',
+    approved_amount: '12,500,000 VND',
+    approval_date: 'May 30, 2024',
+    payment_expected_date: 'June 4, 2024',
+  },
+  rejected: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    rejection_reason: 'The claimed treatment (elective cosmetic procedure) is not covered under your current Health Shield Standard policy. Coverage is limited to medically necessary treatments as defined in Section 4.2 of your policy agreement.',
+    decision_date: 'May 30, 2024',
+    appeal_deadline: 'June 29, 2024',
+  },
+  payment_sent: {
+    member_name: 'Nguyen Van A',
+    claim_number: 'CLM-2024-00123',
+    payment_amount: '12,500,000 VND',
+    payment_reference: 'PAY-2024-78432',
+    payment_date: 'June 1, 2024',
+    bank_account_last4: '•••• 4821',
+    expected_arrival_date: 'June 3, 2024',
+  },
+};
+
+const templateTitles = {
+  claim_submitted: 'Claim Submitted',
+  documents_received: 'Documents Received',
+  under_review: 'Under Review',
+  approved: 'Approved',
+  rejected: 'Rejected',
+  payment_sent: 'Payment Sent',
+};
+
+function interpolate(html, data) {
+  return html.replace(/{{(\w+)}}/g, (_, key) => data[key] !== undefined ? data[key] : '');
+}
+
+async function loadTemplate(btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const templateId = btn.dataset.template;
+  document.getElementById('current-title').textContent = templateTitles[templateId];
+  document.getElementById('current-meta').textContent = `${templateId}.html · Sample data`;
+
+  try {
+    const res = await fetch(`templates/${templateId}.html`);
+    const raw = await res.text();
+    const data = sampleData[templateId] || {};
+    const rendered = interpolate(raw, data);
+
+    // Extract body content from full HTML document
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rendered, 'text/html');
+    const bodyContent = doc.body.innerHTML;
+
+    document.getElementById('preview-content').innerHTML = bodyContent;
+  } catch (err) {
+    document.getElementById('preview-content').innerHTML = `
+      <div style="padding:40px;text-align:center;color:#EF4444;">
+        <p>Failed to load template: ${err.message}</p>
+      </div>`;
+  }
+}
+
+function setViewport(size, btn) {
+  document.querySelectorAll('.viewport-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const frame = document.getElementById('preview-frame');
+  frame.classList.remove('mobile', 'desktop');
+  if (size === 'mobile') frame.classList.add('mobile');
+  if (size === 'desktop') frame.classList.add('desktop');
+}
+
+// Load first template on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const firstBtn = document.querySelector('.nav-btn[data-template="claim_submitted"]');
+  loadTemplate(firstBtn);
+});
+</script>
+</body>
+</html>

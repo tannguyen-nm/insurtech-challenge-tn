@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Sent – Papaya Insurance</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F3F4F6;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F3F4F6;">
+    <tr>
+      <td align="center" style="padding:24px 16px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+
+          <!-- Green header -->
+          <tr>
+            <td style="background-color:#10B981;padding:28px 32px;text-align:center;">
+              <p style="margin:0 0 8px 0;font-size:24px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">🍍 Papaya Insurance</p>
+              <p style="margin:0;font-size:36px;">💸</p>
+              <p style="margin:8px 0 0 0;font-size:20px;font-weight:700;color:#FFFFFF;">Payment Sent!</p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:36px 32px;">
+              <p style="margin:0 0 8px 0;font-size:16px;color:#6B7280;">Dear {{member_name}},</p>
+              <h1 style="margin:0 0 20px 0;font-size:22px;font-weight:700;color:#111827;">Your claim payment is on the way</h1>
+              <p style="margin:0 0 28px 0;font-size:15px;color:#374151;line-height:1.6;">
+                We've successfully processed the payment for your approved claim. The funds have been transferred to your registered bank account.
+              </p>
+
+              <!-- Payment amount box -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F0FDF4;border:2px solid #10B981;border-radius:8px;margin-bottom:28px;text-align:center;">
+                <tr>
+                  <td style="padding:24px;">
+                    <p style="margin:0 0 8px 0;font-size:12px;color:#059669;text-transform:uppercase;letter-spacing:0.05em;font-weight:700;">Amount Transferred</p>
+                    <p style="margin:0;font-size:40px;font-weight:800;color:#10B981;">{{payment_amount}}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Payment details -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;margin-bottom:28px;">
+                <tr>
+                  <td style="padding:16px 20px;border-bottom:1px solid #E5E7EB;">
+                    <p style="margin:0;font-size:12px;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Payment Details</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 20px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #F3F4F6;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                              <td style="font-size:13px;color:#6B7280;">Payment Reference</td>
+                              <td align="right" style="font-size:14px;font-weight:700;color:#10B981;font-family:monospace;letter-spacing:1px;">{{payment_reference}}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #F3F4F6;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                              <td style="font-size:13px;color:#6B7280;">Claim Reference</td>
+                              <td align="right" style="font-size:14px;font-weight:600;color:#111827;">{{claim_number}}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #F3F4F6;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                              <td style="font-size:13px;color:#6B7280;">Payment Date</td>
+                              <td align="right" style="font-size:14px;font-weight:600;color:#111827;">{{payment_date}}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                              <td style="font-size:13px;color:#6B7280;">Bank Account</td>
+                              <td align="right" style="font-size:14px;font-weight:600;color:#111827;">{{bank_account_last4}}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0;font-size:15px;color:#374151;line-height:1.6;">
+                Please allow <strong>1–2 business days</strong> for the funds to appear in your account. If you don't see the payment by <strong>{{expected_arrival_date}}</strong>, please contact our support team.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#F9FAFB;border-top:1px solid #E5E7EB;padding:24px 32px;text-align:center;">
+              <p style="margin:0 0 4px 0;font-size:13px;color:#6B7280;">Questions? Email us at <a href="mailto:support@papaya.insurance" style="color:#2563EB;text-decoration:none;">support@papaya.insurance</a></p>
+              <p style="margin:0;font-size:12px;color:#9CA3AF;">Papaya Insurance · 123 Fintech Street, Ho Chi Minh City, Vietnam</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

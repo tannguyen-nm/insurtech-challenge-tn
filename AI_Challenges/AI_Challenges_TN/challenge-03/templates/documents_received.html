@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents Received – Papaya Insurance</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F3F4F6;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F3F4F6;">
+    <tr>
+      <td align="center" style="padding:24px 16px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#2563EB;padding:28px 32px;text-align:center;">
+              <span style="font-size:24px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">🍍 Papaya Insurance</span>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:36px 32px;">
+              <p style="margin:0 0 8px 0;font-size:16px;color:#6B7280;">Dear {{member_name}},</p>
+              <h1 style="margin:0 0 20px 0;font-size:22px;font-weight:700;color:#111827;">Documents received successfully</h1>
+              <p style="margin:0 0 24px 0;font-size:15px;color:#374151;line-height:1.6;">
+                We've received the documents you submitted for claim <strong>{{claim_number}}</strong>. Here's a summary of what we have on file:
+              </p>
+
+              <!-- Documents list -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:16px 20px;border-bottom:1px solid #E5E7EB;">
+                    <p style="margin:0;font-size:12px;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Documents Received</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 20px;border-bottom:1px solid #E5E7EB;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td width="24" style="vertical-align:top;padding-top:2px;">
+                          <span style="font-size:16px;">📄</span>
+                        </td>
+                        <td style="padding-left:10px;">
+                          <p style="margin:0;font-size:14px;color:#111827;font-weight:500;">{{document_1}}</p>
+                          <p style="margin:2px 0 0 0;font-size:12px;color:#6B7280;">Received {{received_date}}</p>
+                        </td>
+                        <td align="right">
+                          <span style="display:inline-block;padding:2px 10px;background-color:#DCFCE7;color:#15803D;font-size:12px;font-weight:600;border-radius:12px;">Verified</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 20px;border-bottom:1px solid #E5E7EB;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td width="24" style="vertical-align:top;padding-top:2px;">
+                          <span style="font-size:16px;">📄</span>
+                        </td>
+                        <td style="padding-left:10px;">
+                          <p style="margin:0;font-size:14px;color:#111827;font-weight:500;">{{document_2}}</p>
+                          <p style="margin:2px 0 0 0;font-size:12px;color:#6B7280;">Received {{received_date}}</p>
+                        </td>
+                        <td align="right">
+                          <span style="display:inline-block;padding:2px 10px;background-color:#DCFCE7;color:#15803D;font-size:12px;font-weight:600;border-radius:12px;">Verified</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 20px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td width="24" style="vertical-align:top;padding-top:2px;">
+                          <span style="font-size:16px;">📄</span>
+                        </td>
+                        <td style="padding-left:10px;">
+                          <p style="margin:0;font-size:14px;color:#111827;font-weight:500;">{{document_3}}</p>
+                          <p style="margin:2px 0 0 0;font-size:12px;color:#6B7280;">Received {{received_date}}</p>
+                        </td>
+                        <td align="right">
+                          <span style="display:inline-block;padding:2px 10px;background-color:#DCFCE7;color:#15803D;font-size:12px;font-weight:600;border-radius:12px;">Verified</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Claim reference -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:24px;">
+                <tr>
+                  <td width="50%" style="padding:0 8px 0 0;vertical-align:top;">
+                    <p style="margin:0 0 4px 0;font-size:12px;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;">Claim Reference</p>
+                    <p style="margin:0;font-size:15px;color:#2563EB;font-weight:700;">{{claim_number}}</p>
+                  </td>
+                  <td width="50%" style="padding:0 0 0 8px;vertical-align:top;">
+                    <p style="margin:0 0 4px 0;font-size:12px;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;">Total Documents</p>
+                    <p style="margin:0;font-size:15px;color:#111827;font-weight:600;">{{document_count}} files</p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0;font-size:15px;color:#374151;line-height:1.6;">
+                Our team will review these documents and get back to you within <strong>2–3 business days</strong>. If we need anything else, we'll reach out directly.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#F9FAFB;border-top:1px solid #E5E7EB;padding:24px 32px;text-align:center;">
+              <p style="margin:0 0 4px 0;font-size:13px;color:#6B7280;">Questions? Email us at <a href="mailto:support@papaya.insurance" style="color:#2563EB;text-decoration:none;">support@papaya.insurance</a></p>
+              <p style="margin:0;font-size:12px;color:#9CA3AF;">Papaya Insurance · 123 Fintech Street, Ho Chi Minh City, Vietnam</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
