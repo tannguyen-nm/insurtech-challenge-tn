@@ -109,13 +109,11 @@ export default function ComparisonTable() {
               <tr>
                 <th className="bg-gray-100 px-6 py-4 text-left text-sm font-semibold text-gray-600 w-48">Coverage</th>
                 {plans.map((plan, i) => (
-                  <th key={plan.name} className={`${planColors[i].header} px-6 py-5 text-center text-white`}>
+                  <th key={plan.name} className={`${planColors[i].header} px-6 py-5 text-center text-white align-top`}>
                     <div className="flex flex-col items-center gap-1">
-                      {i === recommendedIdx && (
-                        <span className="bg-white text-xs font-bold px-3 py-0.5 rounded-full text-gray-800 mb-1">
-                          ★ Recommended
-                        </span>
-                      )}
+                      <span className={`text-xs font-bold px-3 py-0.5 rounded-full mb-1 ${i === recommendedIdx ? "bg-white text-gray-800" : "invisible"}`}>
+                        ★ Recommended
+                      </span>
                       <span className="text-xl font-bold">{plan.name}</span>
                       <span className="text-2xl font-extrabold">${plan.monthly_premium}<span className="text-sm font-normal">/mo</span></span>
                       <div className="flex flex-col gap-0.5 mt-2">
@@ -192,7 +190,10 @@ export default function ComparisonTable() {
           ))}
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-8">✓ = Best value in category &nbsp;·&nbsp; ★ = Recommended by value-for-money ratio</p>
+        <div className="text-center text-xs text-gray-400 mt-8 flex flex-col items-center gap-1">
+          <span>✓ = Best value in category</span>
+          <span>★ = Recommended by value-for-money ratio</span>
+        </div>
       </div>
     </div>
   );
