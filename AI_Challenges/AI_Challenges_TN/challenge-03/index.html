@@ -195,7 +195,7 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="logo">🍍 Papaya Insurance</div>
+      <div class="logo"><img src="https://www.papaya.asia/_next/static/media/ellipse-logo.88c151ff.svg" alt="" width="24" height="24" style="vertical-align:middle;margin-right:8px;">Papaya Insurance</div>
       <div class="subtitle">Email Template Preview</div>
     </div>
     <nav>
@@ -260,8 +260,8 @@ const sampleData = {
   claim_submitted: {
     member_name: 'Nguyen Van A',
     claim_number: 'CLM-2024-00123',
-    submission_date: 'May 25, 2024',
-    policy_number: 'POL-2023-88721',
+    claim_type: 'Inpatient Hospitalization',
+    submitted_date: 'May 25, 2024',
   },
   documents_received: {
     member_name: 'Nguyen Van A',
@@ -282,9 +282,9 @@ const sampleData = {
   approved: {
     member_name: 'Nguyen Van A',
     claim_number: 'CLM-2024-00123',
-    policy_number: 'POL-2023-88721',
     original_amount: '15,000,000 VND',
     approved_amount: '12,500,000 VND',
+    payment_method: 'Bank Transfer',
     approval_date: 'May 30, 2024',
     payment_expected_date: 'June 4, 2024',
   },
@@ -299,7 +299,7 @@ const sampleData = {
     member_name: 'Nguyen Van A',
     claim_number: 'CLM-2024-00123',
     payment_amount: '12,500,000 VND',
-    payment_reference: 'PAY-2024-78432',
+    reference_number: 'PAY-2024-78432',
     payment_date: 'June 1, 2024',
     bank_account_last4: '•••• 4821',
     expected_arrival_date: 'June 3, 2024',
