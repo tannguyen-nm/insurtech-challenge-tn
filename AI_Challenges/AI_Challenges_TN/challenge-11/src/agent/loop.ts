@@ -1,9 +1,40 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { tools, executeTool } from "../tools";
+import { GoogleGenerativeAI, Part } from "@google/generative-ai";
+import { toolDeclarations, executeTool } from "../tools";
 import { SYSTEM_PROMPT } from "./systemPrompt";
 import type { ClaimInput, ToolCallLog, AssessmentReport, CaseResult } from "../types";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
+
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function parseRetryDelay(err: unknown): number {
+  const msg = (err as { message?: string })?.message ?? "";
+  const match = msg.match(/Please retry in ([\d.]+)s/);
+  return match ? Math.ceil(parseFloat(match[1])) * 1000 + 2000 : 30000;
+}
+
+async function sendWithRetry(
+  fn: () => Promise<unknown>,
+  retries = 5
+): Promise<unknown> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (e: unknown) {
+      const err = e as { status?: number; message?: string };
+      const is429 = err?.status === 429 || err?.message?.includes("429");
+      const is503 = err?.status === 503 || err?.message?.includes("503");
+      if ((is429 || is503) && i < retries - 1) {
+        const delay = is429 ? parseRetryDelay(e) : 15000;
+        console.log(`  ${is429 ? "Rate limited" : "Service unavailable"} — retrying in ${delay / 1000}s...`);
+        await sleep(delay);
+      } else throw e;
+    }
+  }
+  throw new Error("Max retries exceeded");
+}
 
 function formatClaimForAssessment(claim: ClaimInput): string {
   return `Please assess the following insurance claim:
@@ -21,15 +52,14 @@ function formatClaimForAssessment(claim: ClaimInput): string {
 
 **Description:** ${claim.description}
 
-Follow the mandatory tool call sequence: verify all documents → lookup policy → check medical necessity → calculate benefit. Then produce the structured assessment report.`;
+Follow the mandatory tool call sequence: verify ALL documents → lookup policy → check medical necessity → calculate benefit. Then produce the structured assessment report.`;
 }
 
 function parseAssessmentReport(raw: string, caseId: string, claimId: string): AssessmentReport {
   const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (!jsonMatch) {
     return {
-      caseId,
-      claimId,
+      caseId, claimId,
       outcome: "REQUEST_MORE_INFO",
       documentReview: "Parse error",
       policyVerification: "Parse error",
@@ -40,12 +70,10 @@ function parseAssessmentReport(raw: string, caseId: string, claimId: string): As
       rawResponse: raw,
     };
   }
-
   try {
     const parsed = JSON.parse(jsonMatch[1].trim());
     return {
-      caseId,
-      claimId,
+      caseId, claimId,
       outcome: parsed.outcome,
       coveredAmount: parsed.coveredAmount,
       documentReview: parsed.documentReview,
@@ -58,8 +86,7 @@ function parseAssessmentReport(raw: string, caseId: string, claimId: string): As
     };
   } catch {
     return {
-      caseId,
-      claimId,
+      caseId, claimId,
       outcome: "REQUEST_MORE_INFO",
       documentReview: "JSON parse error",
       policyVerification: "JSON parse error",
@@ -74,66 +101,50 @@ function parseAssessmentReport(raw: string, caseId: string, claimId: string): As
 
 export async function assessClaim(claim: ClaimInput): Promise<CaseResult> {
   const toolCallLogs: ToolCallLog[] = [];
-  const messages: Anthropic.MessageParam[] = [
-    { role: "user", content: formatClaimForAssessment(claim) },
-  ];
+
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+    systemInstruction: SYSTEM_PROMPT,
+    tools: [{ functionDeclarations: toolDeclarations }],
+    generationConfig: { temperature: 0.1 },
+  });
+
+  const chat = model.startChat({ history: [] });
+
+  type ChatResult = Awaited<ReturnType<typeof chat.sendMessage>>;
+
+  let result = (await sendWithRetry(() =>
+    chat.sendMessage(formatClaimForAssessment(claim))
+  )) as ChatResult;
 
   let finalText = "";
 
   while (true) {
-    const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      system: [
-        {
-          type: "text",
-          text: SYSTEM_PROMPT,
-          cache_control: { type: "ephemeral" },
-        },
-      ],
-      tools,
-      messages,
-    });
+    const parts = result.response.candidates?.[0]?.content?.parts ?? [];
+    const functionCalls = parts.filter(
+      (p: Part) => "functionCall" in p && p.functionCall
+    );
 
-    if (response.stop_reason === "end_turn") {
-      finalText = response.content
-        .filter((b) => b.type === "text")
-        .map((b) => (b as Anthropic.TextBlock).text)
+    if (functionCalls.length === 0) {
+      finalText = parts
+        .filter((p: Part) => "text" in p)
+        .map((p: Part) => (p as { text: string }).text)
         .join("\n");
       break;
     }
 
-    if (response.stop_reason === "tool_use") {
-      const toolUseBlocks = response.content.filter(
-        (b): b is Anthropic.ToolUseBlock => b.type === "tool_use"
-      );
+    const responseParts: Part[] = functionCalls.map((p: Part) => {
+      const fc = (p as { functionCall: { name: string; args: Record<string, unknown> } }).functionCall;
+      const output = executeTool(fc.name, fc.args);
+      toolCallLogs.push({ tool: fc.name, input: fc.args, output, timestamp: new Date().toISOString() });
+      return { functionResponse: { name: fc.name, response: { result: output } } } as Part;
+    });
 
-      const toolResults = await Promise.all(
-        toolUseBlocks.map(async (block) => {
-          const timestamp = new Date().toISOString();
-          const output = executeTool(block.name, block.input as Record<string, unknown>);
-
-          toolCallLogs.push({
-            tool: block.name,
-            input: block.input,
-            output,
-            timestamp,
-          });
-
-          return {
-            type: "tool_result" as const,
-            tool_use_id: block.id,
-            content: JSON.stringify(output),
-          };
-        })
-      );
-
-      messages.push({ role: "assistant", content: response.content });
-      messages.push({ role: "user", content: toolResults });
-    }
+    result = (await sendWithRetry(() =>
+      chat.sendMessage(responseParts)
+    )) as ChatResult;
   }
 
   const assessmentReport = parseAssessmentReport(finalText, claim.caseId, claim.claimId);
-
   return { caseId: claim.caseId, toolCalls: toolCallLogs, assessmentReport };
 }

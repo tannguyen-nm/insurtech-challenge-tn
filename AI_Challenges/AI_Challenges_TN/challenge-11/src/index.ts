@@ -8,8 +8,8 @@ import type { CaseResult } from "./types";
 const LOGS_DIR = path.join(__dirname, "..", "logs");
 
 async function run() {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error("ERROR: ANTHROPIC_API_KEY environment variable not set");
+  if (!process.env.GEMINI_API_KEY) {
+    console.error("ERROR: GEMINI_API_KEY not set. Get a free key at https://aistudio.google.com/app/apikey");
     process.exit(1);
   }
 
@@ -43,6 +43,13 @@ async function run() {
       console.log(`  Log: ${logPath}\n`);
     } catch (err) {
       console.error(`  ERROR: ${(err as Error).message}\n`);
+    }
+
+    // Respect free-tier rate limit (5 req/min) — wait between cases
+    const isLast = testCase === testCases[testCases.length - 1];
+    if (!isLast) {
+      console.log("  Waiting 35s before next case (rate limit)...\n");
+      await new Promise((r) => setTimeout(r, 35000));
     }
   }
 
