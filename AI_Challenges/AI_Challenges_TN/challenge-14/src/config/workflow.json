@@ -1,0 +1,131 @@
+{
+  "states": [
+    "SUBMITTED",
+    "DOCUMENTS_VERIFIED",
+    "UNDER_ASSESSMENT",
+    "PENDING_INFO",
+    "APPROVED",
+    "REJECTED",
+    "PAYMENT_INITIATED",
+    "CLOSED"
+  ],
+  "transitions": [
+    {
+      "from": "SUBMITTED",
+      "to": "DOCUMENTS_VERIFIED",
+      "label": "Verify Documents",
+      "preconditions": [
+        { "type": "all_documents_present" }
+      ],
+      "side_effects": [
+        { "type": "notify", "target": "assessor_team", "template": "New claim {{claim_id}} ready for assessment" }
+      ],
+      "authorized_roles": ["document_clerk"]
+    },
+    {
+      "from": "DOCUMENTS_VERIFIED",
+      "to": "UNDER_ASSESSMENT",
+      "label": "Start Assessment",
+      "preconditions": [
+        { "type": "assessor_assigned" }
+      ],
+      "side_effects": [
+        { "type": "log_timestamp", "field": "assessment_start_time" }
+      ],
+      "authorized_roles": ["team_lead"]
+    },
+    {
+      "from": "UNDER_ASSESSMENT",
+      "to": "APPROVED",
+      "label": "Approve Claim",
+      "preconditions": [
+        { "type": "assessment_report_complete" },
+        { "type": "amount_within_policy_limit" }
+      ],
+      "side_effects": [
+        { "type": "notify", "target": "member", "template": "Claim {{claim_id}} approved for {{approved_amount}} THB" },
+        { "type": "create_payment_request" }
+      ],
+      "authorized_roles": ["assessor"]
+    },
+    {
+      "from": "UNDER_ASSESSMENT",
+      "to": "REJECTED",
+      "label": "Reject Claim",
+      "preconditions": [
+        { "type": "assessment_report_complete" },
+        { "type": "rejection_reason_provided" }
+      ],
+      "side_effects": [
+        { "type": "notify", "target": "member", "template": "Claim {{claim_id}} rejected. Reason: {{rejection_reason}}. You may appeal within 30 days." }
+      ],
+      "authorized_roles": ["assessor"]
+    },
+    {
+      "from": "UNDER_ASSESSMENT",
+      "to": "PENDING_INFO",
+      "label": "Request More Info",
+      "preconditions": [
+        { "type": "missing_info_description_provided" }
+      ],
+      "side_effects": [
+        { "type": "notify", "target": "member", "template": "Additional information required for claim {{claim_id}}: {{missing_info_description}}" }
+      ],
+      "authorized_roles": ["assessor"]
+    },
+    {
+      "from": "PENDING_INFO",
+      "to": "DOCUMENTS_VERIFIED",
+      "label": "Info Received",
+      "preconditions": [
+        { "type": "all_documents_present" }
+      ],
+      "side_effects": [
+        { "type": "reset_assessment_timer" }
+      ],
+      "authorized_roles": ["document_clerk"]
+    },
+    {
+      "from": "APPROVED",
+      "to": "PAYMENT_INITIATED",
+      "label": "Initiate Payment",
+      "preconditions": [
+        { "type": "payment_request_created" }
+      ],
+      "side_effects": [
+        { "type": "trigger_payment_system" }
+      ],
+      "authorized_roles": ["finance"]
+    },
+    {
+      "from": "PAYMENT_INITIATED",
+      "to": "CLOSED",
+      "label": "Close (Payment Confirmed)",
+      "preconditions": [
+        { "type": "payment_confirmed" }
+      ],
+      "side_effects": [
+        { "type": "notify", "target": "member", "template": "Payment for claim {{claim_id}} processed. Reference: {{payment_reference}}" }
+      ],
+      "authorized_roles": ["finance"]
+    },
+    {
+      "from": "REJECTED",
+      "to": "CLOSED",
+      "label": "Close (Rejected)",
+      "preconditions": [
+        {
+          "type": "any_of",
+          "any_of": [
+            { "type": "appeal_period_expired" },
+            { "type": "member_acknowledged_rejection" }
+          ]
+        }
+      ],
+      "side_effects": [
+        { "type": "archive_claim" }
+      ],
+      "authorized_roles": ["system", "finance"]
+    }
+  ]
+}

@@ -1,21 +1,32 @@
-=== Fraud Detection Metrics (threshold ≥ 10) ===
+=== Fraud Detection Engine — Metrics Report ===
+Claims processed: 2000
+Known fraud: 200
 
-  True Positives  : 164
-  False Positives : 131
-  True Negatives  : 1669
-  False Negatives : 36
+--- Chosen threshold: 10 ---
+Precision : 37.0%
+Recall    : 85.0%
+FPR       : 16.1%
+TP=170  FP=290  FN=30  TN=1510
 
-  Precision  : 55.6%
-  Recall     : 82.0%   (target ≥ 70%)
-  FP Rate    : 7.3%   (target ≤ 20%)
-  F1 Score   : 66.3%
+Threshold sweep:
+Threshold | Precision | Recall | FPR    | TP  FP  FN  TN
+--------------------------------------------------------------
+        5 |      37.0% |   85.0% |   16.1% | 170 290 30 1510
+       10 |      37.0% |   85.0% |   16.1% | 170 290 30 1510
+       15 |      87.0% |   53.5% |    0.9% | 107 16 93 1784
+       20 |      95.1% |   39.0% |    0.2% | 78 4 122 1796
+       25 |      93.6% |   22.0% |    0.2% | 44 3 156 1797
+       30 |     100.0% |    5.0% |    0.0% | 10 0 190 1800
 
-=== Rule coverage on known fraud ===
-  dx_proc_mismatch              : 93
-  duplicate_claim               : 30
-  phantom_billing               : 25
-  unbundling                    : 25
-  amount_clustering             : 21
-  weekend_anomaly               : 20
-  rapid_resubmission            : 15
-  upcoding                      : 12
+Score distribution:
+  [  0- 10): 1540
+  [ 10- 20): 378
+  [ 20- 30): 72
+  [ 30- 40): 10
+  [ 40- 50): 0
+  [ 50- 60): 0
+  [ 60- 70): 0
+  [ 70- 80): 0
+  [ 80- 90): 0
+  [ 90-100): 0
+  [100]:    0
