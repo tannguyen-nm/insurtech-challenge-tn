@@ -1,0 +1,36 @@
+{
+  "name": "challenge-13",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Partner Integration SDK — TypeScript SDK for insurance claim submission",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "ts-node server/index.ts",
+    "build": "tsc",
+    "test": "SIMULATE=false NODE_ENV=test jest --forceExit --runInBand",
+    "example:simple": "ts-node examples/simple-claim.ts",
+    "example:upload": "ts-node examples/claim-with-document.ts",
+    "example:polling": "ts-node examples/status-polling.ts"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.14.10",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^9.0.8",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
