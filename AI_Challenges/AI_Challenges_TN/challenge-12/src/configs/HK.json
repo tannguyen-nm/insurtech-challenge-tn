@@ -1,0 +1,84 @@
+{
+  "country": "HK",
+  "country_name": "Hong Kong",
+  "effective_date": "2024-01-01",
+  "rules": [
+    {
+      "rule_id": "HK-DOC-001",
+      "rule_type": "document_requirement",
+      "description": "Medical receipt required for all claim types",
+      "parameters": {
+        "required_documents": ["medical_receipt"],
+        "applies_to": ["OUTPATIENT", "INPATIENT", "DENTAL", "MATERNITY", "SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-DOC-002",
+      "rule_type": "document_requirement",
+      "description": "Referral letter required for specialist claims",
+      "parameters": {
+        "required_documents": ["referral_letter"],
+        "applies_to": ["SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-DOC-003",
+      "rule_type": "document_requirement",
+      "description": "Discharge summary required for inpatient claims",
+      "parameters": {
+        "required_documents": ["discharge_summary"],
+        "applies_to": ["INPATIENT"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-SLA-001",
+      "rule_type": "sla_check",
+      "description": "Processing SLA: 20 business days for all claim types",
+      "parameters": {
+        "max_business_days": {
+          "OUTPATIENT": 20,
+          "INPATIENT": 20,
+          "DENTAL": 20,
+          "MATERNITY": 20,
+          "SPECIALIST": 20
+        }
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-WAIT-001",
+      "rule_type": "waiting_period",
+      "description": "Waiting period: 60 days general, 180 days for pre-existing conditions",
+      "parameters": {
+        "general_days": 60,
+        "pre_existing_days": 180
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-MASK-001",
+      "rule_type": "data_masking",
+      "description": "HKID must be masked — show first letter and last digit only",
+      "parameters": {
+        "field": "hkid",
+        "strategy": "first_letter_last_digit",
+        "pattern": "^[A-Z]\\*+\\d$"
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "HK-COV-001",
+      "rule_type": "coverage_mandate",
+      "description": "Mental health must be covered at the same level as physical health",
+      "parameters": {
+        "mandate": "mental_health_parity",
+        "applies_to": ["OUTPATIENT", "INPATIENT"]
+      },
+      "always_pass": true,
+      "effective_date": "2024-01-01"
+    }
+  ]
+}

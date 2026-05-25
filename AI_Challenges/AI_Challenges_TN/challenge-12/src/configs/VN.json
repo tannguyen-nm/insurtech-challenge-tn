@@ -1,0 +1,84 @@
+{
+  "country": "VN",
+  "country_name": "Vietnam",
+  "effective_date": "2024-01-01",
+  "rules": [
+    {
+      "rule_id": "VN-DOC-001",
+      "rule_type": "document_requirement",
+      "description": "Medical receipt required for all claim types",
+      "parameters": {
+        "required_documents": ["medical_receipt"],
+        "applies_to": ["OUTPATIENT", "INPATIENT", "DENTAL", "MATERNITY", "SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-DOC-002",
+      "rule_type": "document_requirement",
+      "description": "Hospital certificate required for inpatient claims",
+      "parameters": {
+        "required_documents": ["hospital_certificate"],
+        "applies_to": ["INPATIENT"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-DOC-003",
+      "rule_type": "document_requirement",
+      "description": "ID card copy required for all claims",
+      "parameters": {
+        "required_documents": ["id_card_copy"],
+        "applies_to": ["OUTPATIENT", "INPATIENT", "DENTAL", "MATERNITY", "SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-SLA-001",
+      "rule_type": "sla_check",
+      "description": "Processing SLA: 10 business days for all claim types",
+      "parameters": {
+        "max_business_days": {
+          "OUTPATIENT": 10,
+          "INPATIENT": 10,
+          "DENTAL": 10,
+          "MATERNITY": 10,
+          "SPECIALIST": 10
+        }
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-WAIT-001",
+      "rule_type": "waiting_period",
+      "description": "Waiting period: 30 days general, 365 days for pre-existing conditions",
+      "parameters": {
+        "general_days": 30,
+        "pre_existing_days": 365
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-MASK-001",
+      "rule_type": "data_masking",
+      "description": "Full name must be masked in external reports — show first and last initial only",
+      "parameters": {
+        "field": "full_name",
+        "strategy": "first_last_initial",
+        "pattern": "^[A-Z]\\. .+ [A-Z]\\.$"
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "VN-COV-001",
+      "rule_type": "coverage_mandate",
+      "description": "Maternity must be covered for policies longer than 12 months",
+      "parameters": {
+        "mandate": "maternity_long_policy",
+        "applies_to": ["MATERNITY"],
+        "condition": "policy_duration_months_gte_12"
+      },
+      "effective_date": "2024-01-01"
+    }
+  ]
+}

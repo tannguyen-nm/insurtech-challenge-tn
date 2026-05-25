@@ -1,0 +1,75 @@
+{
+  "country": "SG",
+  "country_name": "Singapore",
+  "effective_date": "2024-01-01",
+  "_note": "Skeleton config — demonstrates zero code changes needed to add a new country",
+  "rules": [
+    {
+      "rule_id": "SG-DOC-001",
+      "rule_type": "document_requirement",
+      "description": "Medical receipt required for all claim types",
+      "parameters": {
+        "required_documents": ["medical_receipt"],
+        "applies_to": ["OUTPATIENT", "INPATIENT", "DENTAL", "MATERNITY", "SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "SG-DOC-002",
+      "rule_type": "document_requirement",
+      "description": "Referral letter required for specialist claims",
+      "parameters": {
+        "required_documents": ["referral_letter"],
+        "applies_to": ["SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "SG-SLA-001",
+      "rule_type": "sla_check",
+      "description": "Processing SLA: 14 business days for all claim types",
+      "parameters": {
+        "max_business_days": {
+          "OUTPATIENT": 14,
+          "INPATIENT": 14,
+          "DENTAL": 14,
+          "MATERNITY": 14,
+          "SPECIALIST": 14
+        }
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "SG-WAIT-001",
+      "rule_type": "waiting_period",
+      "description": "Waiting period: 30 days general, 90 days for pre-existing conditions",
+      "parameters": {
+        "general_days": 30,
+        "pre_existing_days": 90
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "SG-MASK-001",
+      "rule_type": "data_masking",
+      "description": "NRIC must be partially masked — show last 4 characters only",
+      "parameters": {
+        "field": "national_id",
+        "strategy": "last_4_digits",
+        "pattern": "^\\*+\\d{4}$"
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "SG-COV-001",
+      "rule_type": "coverage_mandate",
+      "description": "MediShield Life: all hospitalisation and selected outpatient treatments must be covered",
+      "parameters": {
+        "mandate": "medishield_coverage",
+        "applies_to": ["INPATIENT", "OUTPATIENT"]
+      },
+      "always_pass": true,
+      "effective_date": "2024-01-01"
+    }
+  ]
+}

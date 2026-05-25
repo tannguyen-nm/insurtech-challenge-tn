@@ -1,0 +1,94 @@
+{
+  "country": "TH",
+  "country_name": "Thailand",
+  "effective_date": "2024-01-01",
+  "rules": [
+    {
+      "rule_id": "TH-DOC-001",
+      "rule_type": "document_requirement",
+      "description": "Medical receipt required for all claim types",
+      "parameters": {
+        "required_documents": ["medical_receipt"],
+        "applies_to": ["OUTPATIENT", "INPATIENT", "DENTAL", "MATERNITY", "SPECIALIST"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-DOC-002",
+      "rule_type": "document_requirement",
+      "description": "Discharge summary required for inpatient claims",
+      "parameters": {
+        "required_documents": ["discharge_summary"],
+        "applies_to": ["INPATIENT"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-DOC-003",
+      "rule_type": "document_requirement",
+      "description": "Prescription required for outpatient claims",
+      "parameters": {
+        "required_documents": ["prescription"],
+        "applies_to": ["OUTPATIENT"]
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-DOC-004",
+      "rule_type": "document_requirement",
+      "description": "Lab report required for specialist claims (effective July 2024)",
+      "parameters": {
+        "required_documents": ["lab_report"],
+        "applies_to": ["SPECIALIST"]
+      },
+      "effective_date": "2024-07-01"
+    },
+    {
+      "rule_id": "TH-SLA-001",
+      "rule_type": "sla_check",
+      "description": "Processing SLA: 15 business days for outpatient, 30 for inpatient",
+      "parameters": {
+        "max_business_days": {
+          "OUTPATIENT": 15,
+          "INPATIENT": 30,
+          "DENTAL": 15,
+          "MATERNITY": 30,
+          "SPECIALIST": 15
+        }
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-WAIT-001",
+      "rule_type": "waiting_period",
+      "description": "Waiting period: 30 days general, 120 days for pre-existing conditions",
+      "parameters": {
+        "general_days": 30,
+        "pre_existing_days": 120
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-MASK-001",
+      "rule_type": "data_masking",
+      "description": "National ID must be partially masked — show last 4 digits only",
+      "parameters": {
+        "field": "national_id",
+        "strategy": "last_4_digits",
+        "pattern": "^\\*+\\d{4}$"
+      },
+      "effective_date": "2024-01-01"
+    },
+    {
+      "rule_id": "TH-COV-001",
+      "rule_type": "coverage_mandate",
+      "description": "Emergency treatment must be covered regardless of network",
+      "parameters": {
+        "mandate": "emergency_always_covered",
+        "applies_to": ["OUTPATIENT", "INPATIENT"]
+      },
+      "always_pass": true,
+      "effective_date": "2024-01-01"
+    }
+  ]
+}
