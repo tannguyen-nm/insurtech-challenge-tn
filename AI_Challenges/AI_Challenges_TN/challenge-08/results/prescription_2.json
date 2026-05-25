@@ -1,0 +1,22 @@
+{
+  "file": "prescription_2.png",
+  "expected_type": "prescription",
+  "classified_correctly": true,
+  "document_type": "prescription",
+  "confidence": 0.98,
+  "_reasoning": "Rx symbol, pediatrician details with license, child patient date of birth (2019), syrup medications with mL dosages — clearly a pediatric prescription.",
+  "fields": {
+    "doctor_name": { "value": "Dr. Pattarapong Suksom", "confidence": 0.99 },
+    "patient_name": { "value": "Nong Suksom", "confidence": 0.97 },
+    "date": { "value": "2024-11-12", "confidence": 0.99 },
+    "medications": {
+      "value": [
+        { "name": "Amoxicillin 250mg/5mL Syrup", "dosage": "5mL (250mg)", "frequency": "Three times daily", "duration": "7 days", "quantity": "1 bottle (100mL)" },
+        { "name": "Paracetamol 160mg/5mL Syrup", "dosage": "5mL (160mg)", "frequency": "Every 6 hours as needed for fever", "duration": "5 days", "quantity": "1 bottle (60mL)" },
+        { "name": "Cetirizine 5mg/5mL Syrup", "dosage": "2.5mL", "frequency": "Once daily at bedtime", "duration": "7 days", "quantity": "1 bottle (30mL)" }
+      ],
+      "confidence": 0.97
+    }
+  },
+  "validation_errors": []
+}

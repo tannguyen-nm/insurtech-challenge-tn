@@ -1,0 +1,27 @@
+{
+  "file": "receipt_2.png",
+  "expected_type": "receipt",
+  "classified_correctly": true,
+  "document_type": "receipt",
+  "confidence": 0.97,
+  "_reasoning": "Document shows 'RECEIPT' title, hospital branding, multi-line itemized billing with quantities and per-unit prices, and 'Insurance Direct Billing' payment notation.",
+  "fields": {
+    "hospital_name": { "value": "Bumrungrad International Hospital", "confidence": 0.99 },
+    "patient_name": { "value": "Nguyen Thi Lan", "confidence": 0.97 },
+    "date": { "value": "2024-05-22", "confidence": 0.99 },
+    "items": {
+      "value": [
+        { "description": "Emergency Room Fee", "quantity": 1, "unit_price": 2500, "total": 2500 },
+        { "description": "IV Fluid Administration", "quantity": 2, "unit_price": 400, "total": 800 },
+        { "description": "Complete Blood Count (CBC)", "quantity": 1, "unit_price": 950, "total": 950 },
+        { "description": "Urinalysis", "quantity": 1, "unit_price": 450, "total": 450 },
+        { "description": "Ceftriaxone 1g Injection", "quantity": 3, "unit_price": 280, "total": 840 },
+        { "description": "Room & Board (1 night)", "quantity": 1, "unit_price": 4500, "total": 4500 }
+      ],
+      "confidence": 0.96
+    },
+    "grand_total": { "value": 10040, "confidence": 0.98 },
+    "payment_method": { "value": "Insurance Direct Billing", "confidence": 0.96 }
+  },
+  "validation_errors": []
+}

@@ -1,0 +1,635 @@
+[
+  {
+    "file": "receipt_1.png",
+    "expected_type": "receipt",
+    "classified_correctly": true,
+    "document_type": "receipt",
+    "confidence": 0.98,
+    "_reasoning": "Document displays 'RECEIPT' heading, hospital letterhead, itemized billing table with unit prices and totals, and payment method — classic hospital receipt layout.",
+    "fields": {
+      "hospital_name": {
+        "value": "Bangkok Hospital Medical Center",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Somchai Jaidee",
+        "confidence": 0.98
+      },
+      "date": {
+        "value": "2024-03-15",
+        "confidence": 0.99
+      },
+      "items": {
+        "value": [
+          {
+            "description": "Consultation Fee (Internal Medicine)",
+            "quantity": 1,
+            "unit_price": 1200,
+            "total": 1200
+          },
+          {
+            "description": "Blood Chemistry Panel",
+            "quantity": 1,
+            "unit_price": 2800,
+            "total": 2800
+          },
+          {
+            "description": "Chest X-Ray (PA)",
+            "quantity": 1,
+            "unit_price": 1500,
+            "total": 1500
+          },
+          {
+            "description": "Omeprazole 20mg (30 caps)",
+            "quantity": 2,
+            "unit_price": 350,
+            "total": 700
+          },
+          {
+            "description": "Nursing Service",
+            "quantity": 1,
+            "unit_price": 500,
+            "total": 500
+          }
+        ],
+        "confidence": 0.97
+      },
+      "grand_total": {
+        "value": 6700,
+        "confidence": 0.99
+      },
+      "payment_method": {
+        "value": "Credit Card (Visa)",
+        "confidence": 0.97
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "receipt_2.png",
+    "expected_type": "receipt",
+    "classified_correctly": true,
+    "document_type": "receipt",
+    "confidence": 0.97,
+    "_reasoning": "Document shows 'RECEIPT' title, hospital branding, multi-line itemized billing with quantities and per-unit prices, and 'Insurance Direct Billing' payment notation.",
+    "fields": {
+      "hospital_name": {
+        "value": "Bumrungrad International Hospital",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Nguyen Thi Lan",
+        "confidence": 0.97
+      },
+      "date": {
+        "value": "2024-05-22",
+        "confidence": 0.99
+      },
+      "items": {
+        "value": [
+          {
+            "description": "Emergency Room Fee",
+            "quantity": 1,
+            "unit_price": 2500,
+            "total": 2500
+          },
+          {
+            "description": "IV Fluid Administration",
+            "quantity": 2,
+            "unit_price": 400,
+            "total": 800
+          },
+          {
+            "description": "Complete Blood Count (CBC)",
+            "quantity": 1,
+            "unit_price": 950,
+            "total": 950
+          },
+          {
+            "description": "Urinalysis",
+            "quantity": 1,
+            "unit_price": 450,
+            "total": 450
+          },
+          {
+            "description": "Ceftriaxone 1g Injection",
+            "quantity": 3,
+            "unit_price": 280,
+            "total": 840
+          },
+          {
+            "description": "Room & Board (1 night)",
+            "quantity": 1,
+            "unit_price": 4500,
+            "total": 4500
+          }
+        ],
+        "confidence": 0.96
+      },
+      "grand_total": {
+        "value": 10040,
+        "confidence": 0.98
+      },
+      "payment_method": {
+        "value": "Insurance Direct Billing",
+        "confidence": 0.96
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "receipt_3.png",
+    "expected_type": "receipt",
+    "classified_correctly": true,
+    "document_type": "receipt",
+    "confidence": 0.97,
+    "_reasoning": "RECEIPT header with Samitivej Hospital branding, itemized table including MRI and physical therapy sessions with quantities and unit prices, cash payment noted.",
+    "fields": {
+      "hospital_name": {
+        "value": "Samitivej Sukhumvit Hospital",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Wanchai Boonmee",
+        "confidence": 0.98
+      },
+      "date": {
+        "value": "2024-07-08",
+        "confidence": 0.99
+      },
+      "items": {
+        "value": [
+          {
+            "description": "Outpatient Consultation (Orthopedics)",
+            "quantity": 1,
+            "unit_price": 1800,
+            "total": 1800
+          },
+          {
+            "description": "MRI Knee Joint (without contrast)",
+            "quantity": 1,
+            "unit_price": 12000,
+            "total": 12000
+          },
+          {
+            "description": "Physical Therapy Session",
+            "quantity": 3,
+            "unit_price": 800,
+            "total": 2400
+          },
+          {
+            "description": "Diclofenac 50mg (20 tabs)",
+            "quantity": 1,
+            "unit_price": 180,
+            "total": 180
+          },
+          {
+            "description": "Knee Brace (Medium)",
+            "quantity": 1,
+            "unit_price": 1200,
+            "total": 1200
+          }
+        ],
+        "confidence": 0.97
+      },
+      "grand_total": {
+        "value": 17580,
+        "confidence": 0.99
+      },
+      "payment_method": {
+        "value": "Cash",
+        "confidence": 0.99
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "discharge_1.png",
+    "expected_type": "discharge_summary",
+    "classified_correctly": true,
+    "document_type": "discharge_summary",
+    "confidence": 0.99,
+    "_reasoning": "Document titled 'Discharge Summary' with admission/discharge dates, diagnosis section with ICD codes, procedures performed list, and physician signature block.",
+    "fields": {
+      "hospital_name": {
+        "value": "Chulalongkorn Hospital",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Pranee Suksomboon",
+        "confidence": 0.98
+      },
+      "admission_date": {
+        "value": "2024-04-10",
+        "confidence": 0.99
+      },
+      "discharge_date": {
+        "value": "2024-04-13",
+        "confidence": 0.99
+      },
+      "diagnosis_primary": {
+        "value": "Acute Appendicitis (K35.8)",
+        "confidence": 0.99
+      },
+      "diagnosis_secondary": {
+        "value": [
+          "Mild Dehydration (E86.0)"
+        ],
+        "confidence": 0.97
+      },
+      "procedures_performed": {
+        "value": [
+          "Laparoscopic Appendectomy",
+          "IV Fluid Resuscitation",
+          "Post-operative wound care"
+        ],
+        "confidence": 0.98
+      },
+      "attending_physician": {
+        "value": "Dr. Chaiwat Phromthai, MD — General Surgery",
+        "confidence": 0.97
+      },
+      "discharge_instructions": {
+        "value": "Rest for 2 weeks. Avoid heavy lifting. Follow up in outpatient clinic in 7 days. Take prescribed antibiotics (Amoxicillin 500mg) for 5 days. Return to ER if fever >38.5°C or wound discharge noted.",
+        "confidence": 0.96
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "discharge_2.png",
+    "expected_type": "discharge_summary",
+    "classified_correctly": true,
+    "document_type": "discharge_summary",
+    "confidence": 0.99,
+    "_reasoning": "Discharge Summary with cardiac CCU department, multiple ICD-coded diagnoses, PCI procedure notation, and cardiologist signature.",
+    "fields": {
+      "hospital_name": {
+        "value": "Ramathibodi Hospital",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Le Van Minh",
+        "confidence": 0.97
+      },
+      "admission_date": {
+        "value": "2024-06-01",
+        "confidence": 0.99
+      },
+      "discharge_date": {
+        "value": "2024-06-05",
+        "confidence": 0.99
+      },
+      "diagnosis_primary": {
+        "value": "Acute Myocardial Infarction — NSTEMI (I21.4)",
+        "confidence": 0.99
+      },
+      "diagnosis_secondary": {
+        "value": [
+          "Type 2 Diabetes Mellitus (E11.9)",
+          "Hypertension (I10)",
+          "Hyperlipidemia (E78.5)"
+        ],
+        "confidence": 0.98
+      },
+      "procedures_performed": {
+        "value": [
+          "Coronary Angiography",
+          "Percutaneous Coronary Intervention (PCI) — LAD stenting",
+          "Echocardiography",
+          "Continuous cardiac monitoring"
+        ],
+        "confidence": 0.98
+      },
+      "attending_physician": {
+        "value": "Dr. Supawit Tangsrirat, MD — Interventional Cardiology",
+        "confidence": 0.98
+      },
+      "discharge_instructions": {
+        "value": "Strict low-sodium, low-fat diet. Take all cardiac medications as prescribed (Aspirin, Clopidogrel, Atorvastatin, Metoprolol). Cardiac rehabilitation program enrollment. Follow-up with cardiologist in 2 weeks. Avoid strenuous activity for 4 weeks.",
+        "confidence": 0.96
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "discharge_3.png",
+    "expected_type": "discharge_summary",
+    "classified_correctly": true,
+    "document_type": "discharge_summary",
+    "confidence": 0.98,
+    "_reasoning": "Discharge Summary header from Siriraj Hospital pulmonology department, listing pneumonia diagnosis with ICD code, antibiotic procedures, and follow-up instructions.",
+    "fields": {
+      "hospital_name": {
+        "value": "Siriraj Hospital",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Malee Kongkiat",
+        "confidence": 0.98
+      },
+      "admission_date": {
+        "value": "2024-08-20",
+        "confidence": 0.99
+      },
+      "discharge_date": {
+        "value": "2024-08-22",
+        "confidence": 0.99
+      },
+      "diagnosis_primary": {
+        "value": "Pneumonia — Community Acquired (J18.9)",
+        "confidence": 0.99
+      },
+      "diagnosis_secondary": {
+        "value": [
+          "Mild Hypoxemia (J96.01)"
+        ],
+        "confidence": 0.97
+      },
+      "procedures_performed": {
+        "value": [
+          "Chest X-Ray (AP & Lateral)",
+          "Sputum Culture & Sensitivity",
+          "IV Antibiotics — Ceftriaxone 2g OD",
+          "Supplemental oxygen therapy"
+        ],
+        "confidence": 0.97
+      },
+      "attending_physician": {
+        "value": "Dr. Nattaporn Wisuttipat, MD — Pulmonology",
+        "confidence": 0.98
+      },
+      "discharge_instructions": {
+        "value": "Complete oral antibiotic course (Amoxicillin-Clavulanate 875/125mg BD × 7 days). Adequate rest and hydration. Avoid smoking. Return if dyspnea worsens or oxygen saturation <95%. Follow up chest X-ray in 6 weeks.",
+        "confidence": 0.95
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "lab_1.png",
+    "expected_type": "lab_report",
+    "classified_correctly": true,
+    "document_type": "lab_report",
+    "confidence": 0.99,
+    "_reasoning": "Laboratory Report with test results table showing result values, units, reference ranges, and colored flag badges (HIGH/LOW/NORMAL) — unmistakable lab report layout.",
+    "fields": {
+      "lab_name": {
+        "value": "Bangkok Lab & Pathology Center",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Thida Pornprasert",
+        "confidence": 0.98
+      },
+      "date": {
+        "value": "2024-05-10",
+        "confidence": 0.99
+      },
+      "tests": {
+        "value": [
+          {
+            "test_name": "Hemoglobin (Hgb)",
+            "result": 9.8,
+            "unit": "g/dL",
+            "reference_range": "12.0 – 16.0",
+            "flag": "low"
+          },
+          {
+            "test_name": "Hematocrit (Hct)",
+            "result": 31.2,
+            "unit": "%",
+            "reference_range": "36.0 – 48.0",
+            "flag": "low"
+          },
+          {
+            "test_name": "White Blood Cell Count",
+            "result": 11.4,
+            "unit": "×10³/μL",
+            "reference_range": "4.5 – 10.0",
+            "flag": "high"
+          },
+          {
+            "test_name": "Platelet Count",
+            "result": 245,
+            "unit": "×10³/μL",
+            "reference_range": "150 – 400",
+            "flag": "normal"
+          },
+          {
+            "test_name": "Mean Corpuscular Volume (MCV)",
+            "result": 72,
+            "unit": "fL",
+            "reference_range": "80 – 100",
+            "flag": "low"
+          },
+          {
+            "test_name": "Serum Ferritin",
+            "result": 6.2,
+            "unit": "ng/mL",
+            "reference_range": "10.0 – 291.0",
+            "flag": "low"
+          },
+          {
+            "test_name": "Total Iron Binding Capacity (TIBC)",
+            "result": 490,
+            "unit": "μg/dL",
+            "reference_range": "250 – 370",
+            "flag": "high"
+          }
+        ],
+        "confidence": 0.98
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "lab_2.png",
+    "expected_type": "lab_report",
+    "classified_correctly": true,
+    "document_type": "lab_report",
+    "confidence": 0.99,
+    "_reasoning": "Laboratory report from MedLab Diagnostics with metabolic panel results including glucose, HbA1c, lipid panel — clearly structured with flag column.",
+    "fields": {
+      "lab_name": {
+        "value": "MedLab Diagnostics Co., Ltd.",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Phong Nguyen",
+        "confidence": 0.98
+      },
+      "date": {
+        "value": "2024-09-03",
+        "confidence": 0.99
+      },
+      "tests": {
+        "value": [
+          {
+            "test_name": "Fasting Blood Glucose",
+            "result": 186,
+            "unit": "mg/dL",
+            "reference_range": "70 – 99",
+            "flag": "high"
+          },
+          {
+            "test_name": "HbA1c",
+            "result": 8.9,
+            "unit": "%",
+            "reference_range": "<5.7",
+            "flag": "high"
+          },
+          {
+            "test_name": "Total Cholesterol",
+            "result": 228,
+            "unit": "mg/dL",
+            "reference_range": "<200",
+            "flag": "high"
+          },
+          {
+            "test_name": "LDL Cholesterol",
+            "result": 152,
+            "unit": "mg/dL",
+            "reference_range": "<130",
+            "flag": "high"
+          },
+          {
+            "test_name": "HDL Cholesterol",
+            "result": 42,
+            "unit": "mg/dL",
+            "reference_range": ">40",
+            "flag": "normal"
+          },
+          {
+            "test_name": "Triglycerides",
+            "result": 195,
+            "unit": "mg/dL",
+            "reference_range": "<150",
+            "flag": "high"
+          },
+          {
+            "test_name": "Creatinine",
+            "result": 1.1,
+            "unit": "mg/dL",
+            "reference_range": "0.7 – 1.2",
+            "flag": "normal"
+          },
+          {
+            "test_name": "eGFR",
+            "result": 68,
+            "unit": "mL/min/1.73m²",
+            "reference_range": ">60",
+            "flag": "normal"
+          },
+          {
+            "test_name": "Alanine Aminotransferase (ALT)",
+            "result": 38,
+            "unit": "U/L",
+            "reference_range": "7 – 40",
+            "flag": "normal"
+          }
+        ],
+        "confidence": 0.97
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "prescription_1.png",
+    "expected_type": "prescription",
+    "classified_correctly": true,
+    "document_type": "prescription",
+    "confidence": 0.98,
+    "_reasoning": "Document has 'Rx' symbol, doctor's name with license number, patient info, and medication table with dosage/frequency/duration columns — standard prescription format.",
+    "fields": {
+      "doctor_name": {
+        "value": "Dr. Sirimas Wongsatit",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Ananya Charoenwong",
+        "confidence": 0.98
+      },
+      "date": {
+        "value": "2024-04-20",
+        "confidence": 0.99
+      },
+      "medications": {
+        "value": [
+          {
+            "name": "Metformin 500mg",
+            "dosage": "500mg",
+            "frequency": "Twice daily with meals",
+            "duration": "30 days",
+            "quantity": "60 tablets"
+          },
+          {
+            "name": "Lisinopril 10mg",
+            "dosage": "10mg",
+            "frequency": "Once daily in the morning",
+            "duration": "30 days",
+            "quantity": "30 tablets"
+          },
+          {
+            "name": "Atorvastatin 20mg",
+            "dosage": "20mg",
+            "frequency": "Once daily at bedtime",
+            "duration": "30 days",
+            "quantity": "30 tablets"
+          }
+        ],
+        "confidence": 0.97
+      }
+    },
+    "validation_errors": []
+  },
+  {
+    "file": "prescription_2.png",
+    "expected_type": "prescription",
+    "classified_correctly": true,
+    "document_type": "prescription",
+    "confidence": 0.98,
+    "_reasoning": "Rx symbol, pediatrician details with license, child patient date of birth (2019), syrup medications with mL dosages — clearly a pediatric prescription.",
+    "fields": {
+      "doctor_name": {
+        "value": "Dr. Pattarapong Suksom",
+        "confidence": 0.99
+      },
+      "patient_name": {
+        "value": "Nong Suksom",
+        "confidence": 0.97
+      },
+      "date": {
+        "value": "2024-11-12",
+        "confidence": 0.99
+      },
+      "medications": {
+        "value": [
+          {
+            "name": "Amoxicillin 250mg/5mL Syrup",
+            "dosage": "5mL (250mg)",
+            "frequency": "Three times daily",
+            "duration": "7 days",
+            "quantity": "1 bottle (100mL)"
+          },
+          {
+            "name": "Paracetamol 160mg/5mL Syrup",
+            "dosage": "5mL (160mg)",
+            "frequency": "Every 6 hours as needed for fever",
+            "duration": "5 days",
+            "quantity": "1 bottle (60mL)"
+          },
+          {
+            "name": "Cetirizine 5mg/5mL Syrup",
+            "dosage": "2.5mL",
+            "frequency": "Once daily at bedtime",
+            "duration": "7 days",
+            "quantity": "1 bottle (30mL)"
+          }
+        ],
+        "confidence": 0.97
+      }
+    },
+    "validation_errors": []
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "receipt_1.png": "receipt",
+  "receipt_2.png": "receipt",
+  "receipt_3.png": "receipt",
+  "discharge_1.png": "discharge_summary",
+  "discharge_2.png": "discharge_summary",
+  "discharge_3.png": "discharge_summary",
+  "lab_1.png": "lab_report",
+  "lab_2.png": "lab_report",
+  "prescription_1.png": "prescription",
+  "prescription_2.png": "prescription"
+}

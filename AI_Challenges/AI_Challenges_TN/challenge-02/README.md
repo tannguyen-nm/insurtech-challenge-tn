@@ -1,45 +1,40 @@
 # Challenge 02 — Claims Data Cleanup & Report
 
+**Deployment:** None — CLI script only.
+
+## What it does
+
+Generates a dirty synthetic claims CSV (510 rows with intentional issues), then cleans it and produces a data quality report.
+
 ## Stack
 
 Node.js + TypeScript · csv-parse · csv-stringify · @faker-js/faker
 
-## Setup
-
-```bash
-npm install
-```
-
 ## Usage
 
 ```bash
+npm install
+
 # Step 1: generate dirty dataset
 npm run generate
-# → data/dirty_claims.csv (510 rows with intentional issues)
+# → data/dirty_claims.csv
 
-# Step 2: clean and report
+# Step 2: clean and produce report
 npm run clean
-# → data/clean_claims.csv (cleaned, with has_issues + issue_list columns)
-# → report.txt (data quality report)
+# → data/clean_claims.csv
+# → report.txt
 ```
 
-## Issue Types Handled
+## Issues handled
 
 | Issue | Handling |
-|-------|----------|
+|---|---|
 | Exact duplicate rows | Removed |
-| Duplicate `claim_id` | Detected, reported |
-| Missing `claim_id` | Detected, reported |
+| Duplicate `claim_id` | Detected and reported |
 | Mixed `member_name` casing | Normalized to Title Case |
-| `claim_type` typos (`OP`, `Outpateint`, etc.) | Mapped to canonical (`OUTPATIENT / INPATIENT / DENTAL`) |
-| Bad `diagnosis` (`N/A`, `n/a`, empty) | Nullified (empty string) |
-| Invalid `submitted_amount` (negative, zero, `"15,000"`) | Comma-stripped; negatives/zero flagged |
-| Mixed `currency` (`thb`, `Baht`, `vnd`) | Normalized to uppercase ISO (`THB`, `VND`) |
-| Mixed date formats (`15/03/2024`, `March 15, 2024`) | Parsed to ISO 8601 (`YYYY-MM-DD`) |
+| `claim_type` typos (`OP`, `Outpateint`, etc.) | Mapped to canonical values |
+| Invalid `submitted_amount` (negative, zero, comma-formatted) | Flagged and cleaned |
+| Mixed `currency` (`thb`, `Baht`, `vnd`) | Normalized to ISO uppercase |
+| Mixed date formats | Parsed to ISO 8601 |
 
-## Output Columns (clean CSV)
-
-All original columns plus:
-
-- `has_issues` — `true` / `false`
-- `issue_list` — semicolon-separated list of issues found on that row
+Output adds `has_issues` and `issue_list` columns to each row.

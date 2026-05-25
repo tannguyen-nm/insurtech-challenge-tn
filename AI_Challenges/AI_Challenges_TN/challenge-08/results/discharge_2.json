@@ -1,0 +1,38 @@
+{
+  "file": "discharge_2.png",
+  "expected_type": "discharge_summary",
+  "classified_correctly": true,
+  "document_type": "discharge_summary",
+  "confidence": 0.99,
+  "_reasoning": "Discharge Summary with cardiac CCU department, multiple ICD-coded diagnoses, PCI procedure notation, and cardiologist signature.",
+  "fields": {
+    "hospital_name": { "value": "Ramathibodi Hospital", "confidence": 0.99 },
+    "patient_name": { "value": "Le Van Minh", "confidence": 0.97 },
+    "admission_date": { "value": "2024-06-01", "confidence": 0.99 },
+    "discharge_date": { "value": "2024-06-05", "confidence": 0.99 },
+    "diagnosis_primary": { "value": "Acute Myocardial Infarction — NSTEMI (I21.4)", "confidence": 0.99 },
+    "diagnosis_secondary": {
+      "value": [
+        "Type 2 Diabetes Mellitus (E11.9)",
+        "Hypertension (I10)",
+        "Hyperlipidemia (E78.5)"
+      ],
+      "confidence": 0.98
+    },
+    "procedures_performed": {
+      "value": [
+        "Coronary Angiography",
+        "Percutaneous Coronary Intervention (PCI) — LAD stenting",
+        "Echocardiography",
+        "Continuous cardiac monitoring"
+      ],
+      "confidence": 0.98
+    },
+    "attending_physician": { "value": "Dr. Supawit Tangsrirat, MD — Interventional Cardiology", "confidence": 0.98 },
+    "discharge_instructions": {
+      "value": "Strict low-sodium, low-fat diet. Take all cardiac medications as prescribed (Aspirin, Clopidogrel, Atorvastatin, Metoprolol). Cardiac rehabilitation program enrollment. Follow-up with cardiologist in 2 weeks. Avoid strenuous activity for 4 weeks.",
+      "confidence": 0.96
+    }
+  },
+  "validation_errors": []
+}

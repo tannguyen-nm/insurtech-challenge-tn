@@ -1,0 +1,28 @@
+{
+  "file": "lab_2.png",
+  "expected_type": "lab_report",
+  "classified_correctly": true,
+  "document_type": "lab_report",
+  "confidence": 0.99,
+  "_reasoning": "Laboratory report from MedLab Diagnostics with metabolic panel results including glucose, HbA1c, lipid panel — clearly structured with flag column.",
+  "fields": {
+    "lab_name": { "value": "MedLab Diagnostics Co., Ltd.", "confidence": 0.99 },
+    "patient_name": { "value": "Phong Nguyen", "confidence": 0.98 },
+    "date": { "value": "2024-09-03", "confidence": 0.99 },
+    "tests": {
+      "value": [
+        { "test_name": "Fasting Blood Glucose", "result": 186, "unit": "mg/dL", "reference_range": "70 – 99", "flag": "high" },
+        { "test_name": "HbA1c", "result": 8.9, "unit": "%", "reference_range": "<5.7", "flag": "high" },
+        { "test_name": "Total Cholesterol", "result": 228, "unit": "mg/dL", "reference_range": "<200", "flag": "high" },
+        { "test_name": "LDL Cholesterol", "result": 152, "unit": "mg/dL", "reference_range": "<130", "flag": "high" },
+        { "test_name": "HDL Cholesterol", "result": 42, "unit": "mg/dL", "reference_range": ">40", "flag": "normal" },
+        { "test_name": "Triglycerides", "result": 195, "unit": "mg/dL", "reference_range": "<150", "flag": "high" },
+        { "test_name": "Creatinine", "result": 1.1, "unit": "mg/dL", "reference_range": "0.7 – 1.2", "flag": "normal" },
+        { "test_name": "eGFR", "result": 68, "unit": "mL/min/1.73m²", "reference_range": ">60", "flag": "normal" },
+        { "test_name": "Alanine Aminotransferase (ALT)", "result": 38, "unit": "U/L", "reference_range": "7 – 40", "flag": "normal" }
+      ],
+      "confidence": 0.97
+    }
+  },
+  "validation_errors": []
+}

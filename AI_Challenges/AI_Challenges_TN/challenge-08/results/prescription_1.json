@@ -1,0 +1,22 @@
+{
+  "file": "prescription_1.png",
+  "expected_type": "prescription",
+  "classified_correctly": true,
+  "document_type": "prescription",
+  "confidence": 0.98,
+  "_reasoning": "Document has 'Rx' symbol, doctor's name with license number, patient info, and medication table with dosage/frequency/duration columns — standard prescription format.",
+  "fields": {
+    "doctor_name": { "value": "Dr. Sirimas Wongsatit", "confidence": 0.99 },
+    "patient_name": { "value": "Ananya Charoenwong", "confidence": 0.98 },
+    "date": { "value": "2024-04-20", "confidence": 0.99 },
+    "medications": {
+      "value": [
+        { "name": "Metformin 500mg", "dosage": "500mg", "frequency": "Twice daily with meals", "duration": "30 days", "quantity": "60 tablets" },
+        { "name": "Lisinopril 10mg", "dosage": "10mg", "frequency": "Once daily in the morning", "duration": "30 days", "quantity": "30 tablets" },
+        { "name": "Atorvastatin 20mg", "dosage": "20mg", "frequency": "Once daily at bedtime", "duration": "30 days", "quantity": "30 tablets" }
+      ],
+      "confidence": 0.97
+    }
+  },
+  "validation_errors": []
+}
