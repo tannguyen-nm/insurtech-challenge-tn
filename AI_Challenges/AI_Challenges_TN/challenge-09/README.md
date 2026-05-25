@@ -1,6 +1,6 @@
 # Challenge 09 — Claims Analytics Dashboard
 
-**Live URL:** https://challenge-09.vercel.app
+**Live URL:** https://insurtech-challenge-09.vercel.app
 
 ## What it does
 

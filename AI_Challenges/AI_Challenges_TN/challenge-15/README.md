@@ -1,6 +1,6 @@
 # Challenge 15 — Multi-Tenant Configuration Platform
 
-**Live URL:** https://challenge-15.vercel.app
+**Live URL:** https://insurtech-challenge-15.vercel.app
 
 ## What it does
 

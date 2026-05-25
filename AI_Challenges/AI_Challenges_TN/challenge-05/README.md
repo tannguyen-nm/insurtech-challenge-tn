@@ -1,6 +1,6 @@
 # Challenge 05 — Policy Summary Generator
 
-**Live URL:** https://challenge-05.vercel.app
+**Live URL:** https://insurtech-challenge-05.vercel.app
 
 ## What it does
 

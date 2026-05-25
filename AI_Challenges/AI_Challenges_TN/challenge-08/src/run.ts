@@ -10,8 +10,8 @@ const DOCS_DIR = path.join(__dirname, '..', 'docs');
 const RESULTS_DIR = path.join(__dirname, '..', 'results');
 
 async function main() {
-  if (!process.env.GEMINI_API_KEY) {
-    console.error('GEMINI_API_KEY not set');
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('ANTHROPIC_API_KEY not set');
     process.exit(1);
   }
 

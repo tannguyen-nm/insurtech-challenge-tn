@@ -1,6 +1,6 @@
 # Challenge 03 — Claim Notification Email Templates
 
-**Live URL:** https://challenge-03.vercel.app
+**Live URL:** https://insurtech-challenge-03.vercel.app
 
 ## What it does
 
