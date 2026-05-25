@@ -1,0 +1,21 @@
+=== Fraud Detection Metrics (threshold ≥ 10) ===
+
+  True Positives  : 164
+  False Positives : 131
+  True Negatives  : 1669
+  False Negatives : 36
+
+  Precision  : 55.6%
+  Recall     : 82.0%   (target ≥ 70%)
+  FP Rate    : 7.3%   (target ≤ 20%)
+  F1 Score   : 66.3%
+
+=== Rule coverage on known fraud ===
+  dx_proc_mismatch              : 93
+  duplicate_claim               : 30
+  phantom_billing               : 25
+  unbundling                    : 25
+  amount_clustering             : 21
+  weekend_anomaly               : 20
+  rapid_resubmission            : 15
+  upcoding                      : 12
