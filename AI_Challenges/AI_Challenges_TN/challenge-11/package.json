@@ -1,0 +1,20 @@
+{
+  "name": "challenge-11",
+  "version": "1.0.0",
+  "description": "Claim Assessment AI Agent",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "npx tsx src/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.55.0",
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
