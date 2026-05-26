@@ -11,7 +11,7 @@ export default function QuickReferenceCard({ policy }: Props) {
   const benefitCount = policy.benefits.length;
 
   return (
-    <div className="bg-blue-600 text-white rounded-2xl p-6 mb-6 shadow-lg">
+    <div className="bg-blue-600 text-white p-6 border-b border-gray-100">
       <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-200 mb-4">Quick Reference</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="text-center">

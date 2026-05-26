@@ -22,8 +22,8 @@ export default function App() {
   const { policy } = POLICIES[selected];
 
   return (
-    <div className="min-h-screen bg-slate-100 overflow-x-hidden py-8">
-      <div className="max-w-3xl mx-auto px-4">
+    <div className="min-h-screen bg-slate-100 py-8 flex flex-col items-center">
+      <div className="w-full max-w-3xl px-4">
 
         {/* Toolbar */}
         <div className="flex items-center justify-between mb-4 no-print">
@@ -51,7 +51,7 @@ export default function App() {
         </div>
 
         {/* Single white document card */}
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div className="bg-white shadow-md overflow-hidden rounded-b-xl">
 
           {/* Print-only header */}
           <div className="hidden print:flex items-center justify-between px-6 pt-6 pb-2">
