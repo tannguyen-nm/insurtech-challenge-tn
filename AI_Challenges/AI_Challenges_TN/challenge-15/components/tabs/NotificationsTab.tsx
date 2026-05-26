@@ -49,7 +49,8 @@ export function NotificationsTab() {
             </h3>
 
             <Controller
-              name={`notifications.${activeType}.${event}.channels`}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              name={`notifications.${activeType}.${event}.channels` as any}
               control={control}
               render={({ field }) => (
                 <div className="flex gap-2 flex-wrap">
@@ -86,7 +87,7 @@ export function NotificationsTab() {
             <div className="mt-3">
               <label className="block text-xs text-slate-500 mb-1">Custom Template (optional)</label>
               <textarea
-                {...register(`notifications.${activeType}.${event}.customTemplate`)}
+                {...register(`notifications.${activeType}.${event}.customTemplate` as never)}
                 rows={2}
                 placeholder="Leave blank to use default template..."
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-slate-700"
