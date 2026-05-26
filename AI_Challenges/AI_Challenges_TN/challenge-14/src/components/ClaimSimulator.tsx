@@ -258,12 +258,14 @@ export default function ClaimSimulator() {
               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Transition Log</p>
               <div className="space-y-1">
                 {log.map((entry, i) => (
-                  <div key={i} className={`flex items-center gap-2 text-xs rounded-lg px-2.5 py-1.5 ${entry.status === 'ok' ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`}>
-                    <span className={`font-bold ${entry.status === 'ok' ? 'text-green-700' : 'text-red-700'}`}>{entry.status === 'ok' ? 'OK' : 'ERR'}</span>
-                    <span className={`px-1.5 py-0.5 rounded font-medium ${STATE_COLOR[entry.from] ?? 'bg-gray-100'}`}>{entry.from}</span>
-                    <span className="text-gray-400">→</span>
-                    <span className={`px-1.5 py-0.5 rounded font-medium ${STATE_COLOR[entry.to] ?? 'bg-gray-100'}`}>{entry.to}</span>
-                    <span className="text-gray-500">by {entry.actor.role}</span>
+                  <div key={i} className={`text-xs rounded-lg px-2.5 py-1.5 ${entry.status === 'ok' ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`}>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className={`shrink-0 font-bold ${entry.status === 'ok' ? 'text-green-700' : 'text-red-700'}`}>{entry.status === 'ok' ? 'OK' : 'ERR'}</span>
+                      <span className={`shrink-0 whitespace-nowrap px-1.5 py-0.5 rounded font-medium ${STATE_COLOR[entry.from] ?? 'bg-gray-100'}`}>{entry.from}</span>
+                      <span className="shrink-0 text-gray-400">→</span>
+                      <span className={`shrink-0 whitespace-nowrap px-1.5 py-0.5 rounded font-medium ${STATE_COLOR[entry.to] ?? 'bg-gray-100'}`}>{entry.to}</span>
+                      <span className="text-gray-500">by {entry.actor.role}</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -279,13 +281,13 @@ export default function ClaimSimulator() {
           <div className="space-y-1.5">
             {auditTrail.map((entry) => (
               <div key={entry.id} className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-mono text-gray-400">{entry.id}</span>
-                  <span className={`px-1.5 py-0.5 rounded font-medium border ${STATE_COLOR[entry.from_state] ?? 'bg-gray-100'}`}>{entry.from_state}</span>
-                  <span className="text-gray-400">→</span>
-                  <span className={`px-1.5 py-0.5 rounded font-medium border ${STATE_COLOR[entry.to_state] ?? 'bg-gray-100'}`}>{entry.to_state}</span>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="shrink-0 font-mono text-gray-400">{entry.id}</span>
+                  <span className={`shrink-0 whitespace-nowrap px-1.5 py-0.5 rounded font-medium border ${STATE_COLOR[entry.from_state] ?? 'bg-gray-100'}`}>{entry.from_state}</span>
+                  <span className="shrink-0 text-gray-400">→</span>
+                  <span className={`shrink-0 whitespace-nowrap px-1.5 py-0.5 rounded font-medium border ${STATE_COLOR[entry.to_state] ?? 'bg-gray-100'}`}>{entry.to_state}</span>
                   <span className="text-gray-500">by {entry.triggered_by.role} ({entry.triggered_by.user_id})</span>
-                  <span className="text-gray-400 font-mono">{new Date(entry.timestamp).toLocaleTimeString()}</span>
+                  <span className="shrink-0 text-gray-400 font-mono">{new Date(entry.timestamp).toLocaleTimeString()}</span>
                 </div>
                 {entry.notes && <p className="text-gray-500 italic mt-1 ml-1">{entry.notes}</p>}
                 {entry.side_effects_executed.length > 0 && (
