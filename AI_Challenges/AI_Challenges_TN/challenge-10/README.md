@@ -8,7 +8,7 @@ Rule-based fraud detection engine that scores insurance claims. Applies configur
 
 ## Stack
 
-Node.js + TypeScript · Jest
+Node.js + TypeScript · Vitest
 
 ## Usage
 
@@ -16,7 +16,7 @@ Node.js + TypeScript · Jest
 npm install
 
 # Run against sample dataset
-npm run score
+npm run engine
 # → scored_claims.json
 # → metrics_report.txt
 
@@ -26,4 +26,4 @@ npm test
 
 ## Output format
 
-Each scored claim includes `risk_score` (0–100), `risk_level` (LOW / MEDIUM / HIGH), and `rules_triggered` array.
+Each scored claim includes `score` (0–100) and `flags` array with triggered rules, severity, and evidence.

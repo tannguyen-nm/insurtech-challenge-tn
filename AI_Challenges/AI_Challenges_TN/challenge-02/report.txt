@@ -1,35 +1,35 @@
 === CLAIMS DATA QUALITY REPORT ===
 
 Rows before cleaning     : 510
-Rows after cleaning      : 503
-Rows with any issue      : 125
-Exact duplicates removed : 7
+Rows after cleaning      : 502
+Rows with any issue      : 129
+Exact duplicates removed : 8
 
 --- Issue Counts (by type) ---
   missing_claim_id     : 13
   duplicate_claim_ids  : 15
-  name_casing          : 58
+  name_casing          : 65
   claim_type_typo      : 13
   bad_diagnosis        : 13
-  invalid_amount       : 8
+  invalid_amount       : 5
   currency_normalized  : 13
-  date_normalized      : 29
+  date_normalized      : 30
   unparseable_date     : 0
 
 --- Claims by Type ---
-  INPATIENT      count=161  avg_amount=$93,697
-  OUTPATIENT     count=162  avg_amount=$102,953
-  DENTAL         count=180  avg_amount=$105,978
+  INPATIENT      count=153  avg_amount=$97,905
+  OUTPATIENT     count=192  avg_amount=$96,326
+  DENTAL         count=157  avg_amount=$97,024
 
 --- Claims by Status ---
-  PENDING        110
-  REJECTED       142
-  APPROVED       131
-  IN_REVIEW      120
+  APPROVED       132
+  IN_REVIEW      102
+  REJECTED       139
+  PENDING        129
 
 --- Top 5 Diagnoses ---
-  1. Diabetes         (42)
-  2. UTI              (40)
-  3. COVID-19         (38)
-  4. Flu              (36)
-  5. Migraine         (35)
+  1. Back Pain        (55)
+  2. Allergies        (41)
+  3. Migraine         (38)
+  4. Flu              (37)
+  5. Appendicitis     (33)
