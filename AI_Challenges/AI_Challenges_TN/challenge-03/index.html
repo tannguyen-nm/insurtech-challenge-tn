@@ -164,6 +164,9 @@
     }
     .preview-content {
       width: 100%;
+      border: none;
+      display: block;
+      min-height: 400px;
     }
 
     /* Loading / empty state */
@@ -248,7 +251,7 @@
     </div>
     <div class="preview-area">
       <div class="preview-frame" id="preview-frame">
-        <div class="preview-content" id="preview-content"></div>
+        <iframe class="preview-content" id="preview-content" title="Email preview"></iframe>
       </div>
     </div>
   </div>
@@ -328,22 +331,21 @@ async function loadTemplate(btn) {
   document.getElementById('current-meta').textContent = `${templateId}.html · Sample data`;
 
   try {
-    const res = await fetch(`templates/${templateId}.html`);
+    const res = await fetch(`templates/${templateId}.html?v=${Date.now()}`);
     const raw = await res.text();
     const data = sampleData[templateId] || {};
     const rendered = interpolate(raw, data);
 
-    // Extract body content from full HTML document
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(rendered, 'text/html');
-    const bodyContent = doc.body.innerHTML;
-
-    document.getElementById('preview-content').innerHTML = bodyContent;
+    const iframe = document.getElementById('preview-content');
+    iframe.srcdoc = rendered;
+    iframe.onload = () => {
+      try {
+        iframe.style.height = iframe.contentDocument.body.scrollHeight + 32 + 'px';
+      } catch(e) {}
+    };
   } catch (err) {
-    document.getElementById('preview-content').innerHTML = `
-      <div style="padding:40px;text-align:center;color:#EF4444;">
-        <p>Failed to load template: ${err.message}</p>
-      </div>`;
+    const iframe = document.getElementById('preview-content');
+    iframe.srcdoc = `<body style="font-family:sans-serif;padding:40px;text-align:center;color:#EF4444;"><p>Failed to load template: ${err.message}</p></body>`;
   }
 }
 
@@ -351,9 +353,21 @@ function setViewport(size, btn) {
   document.querySelectorAll('.viewport-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const frame = document.getElementById('preview-frame');
+  const iframe = document.getElementById('preview-content');
   frame.classList.remove('mobile', 'desktop');
-  if (size === 'mobile') frame.classList.add('mobile');
-  if (size === 'desktop') frame.classList.add('desktop');
+  if (size === 'mobile') {
+    frame.classList.add('mobile');
+    iframe.style.width = '375px';
+  } else if (size === 'desktop') {
+    frame.classList.add('desktop');
+    iframe.style.width = '100%';
+  } else {
+    iframe.style.width = '100%';
+  }
+  // Reflow height after width change
+  setTimeout(() => {
+    try { iframe.style.height = iframe.contentDocument.body.scrollHeight + 32 + 'px'; } catch(e) {}
+  }, 50);
 }
 
 // Load first template on page load
