@@ -24,7 +24,7 @@ export default function BenefitsTable({ policy }: Props) {
   );
 
   return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+    <section className="p-6 border-b border-gray-100">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Benefits Coverage</h2>
       <div className="space-y-5">
         {sorted.map((benefit) => {

@@ -6,7 +6,7 @@ export default function MemberBreakdown({ policy }: Props) {
   if (!policy.members) return null;
   const m = policy.members;
   return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+    <section className="p-6 border-b border-gray-100">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Member Breakdown</h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[

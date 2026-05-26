@@ -22,10 +22,11 @@ export default function App() {
   const { policy } = POLICIES[selected];
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6 no-print">
+    <div className="min-h-screen bg-slate-100 overflow-x-hidden py-8">
+      <div className="max-w-3xl mx-auto px-4">
+
+        {/* Toolbar */}
+        <div className="flex items-center justify-between mb-4 no-print">
           <div>
             <p className="text-2xl font-bold text-blue-700">Papaya Insurance</p>
             <p className="text-sm text-gray-500">Policy Summary</p>
@@ -49,24 +50,29 @@ export default function App() {
           </div>
         </div>
 
-        {/* Print-only header */}
-        <div className="hidden print:flex items-center justify-between mb-6">
-          <p className="text-2xl font-bold text-blue-700">Papaya Insurance</p>
-          <p className="text-sm text-gray-500">Policy Summary — {policy.policy_number}</p>
+        {/* Single white document card */}
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+
+          {/* Print-only header */}
+          <div className="hidden print:flex items-center justify-between px-6 pt-6 pb-2">
+            <p className="text-2xl font-bold text-blue-700">Papaya Insurance</p>
+            <p className="text-sm text-gray-500">Policy Summary — {policy.policy_number}</p>
+          </div>
+
+          <QuickReferenceCard policy={policy} />
+          <PolicyOverview policy={policy} />
+          <MemberBreakdown policy={policy} />
+          <BenefitsTable policy={policy} />
+          <CopaySchedule policy={policy} />
+          <WaitingPeriods policy={policy} />
+          <ExclusionsList policy={policy} />
+          <NetworkInfo policy={policy} />
+
+          <p className="text-center text-xs text-gray-400 py-4 no-print">
+            Papaya Insurance · Policy Summary Generator
+          </p>
         </div>
 
-        <QuickReferenceCard policy={policy} />
-        <PolicyOverview policy={policy} />
-        <MemberBreakdown policy={policy} />
-        <BenefitsTable policy={policy} />
-        <CopaySchedule policy={policy} />
-        <WaitingPeriods policy={policy} />
-        <ExclusionsList policy={policy} />
-        <NetworkInfo policy={policy} />
-
-        <p className="text-center text-xs text-gray-400 mt-6 no-print">
-          Papaya Insurance · Policy Summary Generator
-        </p>
       </div>
     </div>
   );

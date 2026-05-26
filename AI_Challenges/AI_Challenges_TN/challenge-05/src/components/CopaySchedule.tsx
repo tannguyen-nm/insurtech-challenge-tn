@@ -14,7 +14,7 @@ export default function CopaySchedule({ policy }: Props) {
   ].filter((e) => e.entry !== undefined);
 
   return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+    <section className="p-6 border-b border-gray-100">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Copay Schedule</h2>
       <table className="w-full text-sm">
         <thead>

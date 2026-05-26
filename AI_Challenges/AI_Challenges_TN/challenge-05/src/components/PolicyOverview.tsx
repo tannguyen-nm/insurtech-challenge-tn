@@ -15,7 +15,7 @@ function Row({ label, value }: { label: string; value: string }) {
 export default function PolicyOverview({ policy }: Props) {
   const { policyholder: ph, plan } = policy;
   return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+    <section className="p-6 border-b border-gray-100">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Policy Overview</h2>
       <table className="w-full">
         <tbody>

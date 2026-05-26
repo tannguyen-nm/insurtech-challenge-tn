@@ -5,7 +5,7 @@ interface Props { policy: Policy; }
 export default function ExclusionsList({ policy }: Props) {
   if (!policy.exclusions?.length) return null;
   return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+    <section className="p-6 border-b border-gray-100">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Exclusions</h2>
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-3">
