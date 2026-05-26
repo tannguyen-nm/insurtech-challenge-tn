@@ -110,7 +110,6 @@ export default function ClaimSimulator() {
     setAppealExpired(false);
   }
 
-  const isClosed = claim.current_state === 'CLOSED' || claim.current_state === 'APPROVED' && validTransitions.length === 0;
   const isTerminal = validTransitions.length === 0;
 
   return (
