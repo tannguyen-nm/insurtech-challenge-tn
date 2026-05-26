@@ -71,7 +71,11 @@ const LANDING_HTML = `<!DOCTYPE html>
   .container{max-width:900px;margin:0 auto;padding:48px 24px}
   h2{font-size:1.4rem;font-weight:700;color:#1e293b;margin:40px 0 16px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
   h3{font-size:1rem;font-weight:600;color:#475569;margin:20px 0 8px}
-  pre{background:#0f172a;color:#e2e8f0;padding:20px;border-radius:10px;overflow-x:auto;font-size:.88rem;line-height:1.7;margin:12px 0}
+  pre{position:relative;background:#0f172a;color:#e2e8f0;padding:20px;border-radius:10px;overflow-x:auto;font-size:.88rem;line-height:1.7;margin:12px 0;user-select:none}
+  pre code{user-select:text}
+  pre .copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#94a3b8;border-radius:6px;padding:4px 10px;font-size:.75rem;cursor:pointer;transition:all .15s;font-family:inherit}
+  pre .copy-btn:hover{background:rgba(255,255,255,.2);color:#e2e8f0}
+  pre .copy-btn.copied{background:#16a34a;border-color:#16a34a;color:#fff}
   code{background:#e2e8f0;color:#1e293b;padding:2px 6px;border-radius:4px;font-size:.85em}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:20px 0}
   .card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px}
@@ -178,5 +182,21 @@ try {
 
 </div>
 <footer>Papaya Insurance Partner SDK &mdash; Challenge 13 &mdash; Mock API Server</footer>
+<script>
+  document.querySelectorAll('pre').forEach(function(pre) {
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function() {
+      var code = pre.querySelector('code');
+      navigator.clipboard.writeText(code ? code.innerText : pre.innerText).then(function() {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    });
+    pre.appendChild(btn);
+  });
+</script>
 </body>
 </html>`
