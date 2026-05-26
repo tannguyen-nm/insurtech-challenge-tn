@@ -3,24 +3,64 @@
   "expected_type": "receipt",
   "classified_correctly": true,
   "document_type": "receipt",
-  "confidence": 0.98,
-  "_reasoning": "Document displays 'RECEIPT' heading, hospital letterhead, itemized billing table with unit prices and totals, and payment method — classic hospital receipt layout.",
+  "confidence": 1,
   "fields": {
-    "hospital_name": { "value": "Bangkok Hospital Medical Center", "confidence": 0.99 },
-    "patient_name": { "value": "Somchai Jaidee", "confidence": 0.98 },
-    "date": { "value": "2024-03-15", "confidence": 0.99 },
+    "hospital_name": {
+      "value": "Bangkok Hospital Medical Center",
+      "confidence": 1
+    },
+    "patient_name": {
+      "value": "Somchai Jaidee",
+      "confidence": 1
+    },
+    "date": {
+      "value": "2024-03-15",
+      "confidence": 1
+    },
     "items": {
       "value": [
-        { "description": "Consultation Fee (Internal Medicine)", "quantity": 1, "unit_price": 1200, "total": 1200 },
-        { "description": "Blood Chemistry Panel", "quantity": 1, "unit_price": 2800, "total": 2800 },
-        { "description": "Chest X-Ray (PA)", "quantity": 1, "unit_price": 1500, "total": 1500 },
-        { "description": "Omeprazole 20mg (30 caps)", "quantity": 2, "unit_price": 350, "total": 700 },
-        { "description": "Nursing Service", "quantity": 1, "unit_price": 500, "total": 500 }
+        {
+          "description": "Consultation Fee (Internal Medicine)",
+          "quantity": 1,
+          "unit_price": 1200,
+          "total": 1200
+        },
+        {
+          "description": "Blood Chemistry Panel",
+          "quantity": 1,
+          "unit_price": 2800,
+          "total": 2800
+        },
+        {
+          "description": "Chest X-Ray (PA)",
+          "quantity": 1,
+          "unit_price": 1500,
+          "total": 1500
+        },
+        {
+          "description": "Omeprazole 20mg (30 caps)",
+          "quantity": 2,
+          "unit_price": 350,
+          "total": 700
+        },
+        {
+          "description": "Nursing Service",
+          "quantity": 1,
+          "unit_price": 500,
+          "total": 500
+        }
       ],
-      "confidence": 0.97
+      "confidence": 1
     },
-    "grand_total": { "value": 6700, "confidence": 0.99 },
-    "payment_method": { "value": "Credit Card (Visa)", "confidence": 0.97 }
+    "grand_total": {
+      "value": 6700,
+      "confidence": 1
+    },
+    "payment_method": {
+      "value": "Credit Card (Visa)",
+      "confidence": 1
+    }
   },
-  "validation_errors": []
+  "validation_errors": [],
+  "_reasoning": "The document explicitly states 'RECEIPT' at the top right, includes a 'Receipt No', lists services with 'Qty', 'Unit Price', and 'Total', and has sections for 'Subtotal' and 'GRAND TOTAL', all characteristic features of a receipt."
 }

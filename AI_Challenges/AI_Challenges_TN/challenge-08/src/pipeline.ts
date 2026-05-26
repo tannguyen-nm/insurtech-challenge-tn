@@ -1,9 +1,9 @@
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { readFileSync } from 'fs';
 import { ClassificationResultSchema, type DocType, type ExtractionOutput } from './types.js';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-const MODEL = 'claude-sonnet-4-6';
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
 const EXTRACTION_SYSTEM = `You are a precise insurance claims document processor. Extract structured data from medical documents exactly as printed — never infer or fabricate data not visible in the image.
 
@@ -61,21 +61,34 @@ function imageToBase64(filePath: string): string {
   return readFileSync(filePath).toString('base64');
 }
 
+async function generateWithRetry(parts: Parameters<typeof model.generateContent>[0], retries = 3): Promise<string> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(parts);
+      return result.response.text();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      // Parse retryDelay from error (e.g. "retryDelay":"31.1s") and cap at 65s
+      const retryMatch = msg.match(/"retryDelay":"([\d.]+)s"/);
+      const waitSec = retryMatch ? Math.min(Math.ceil(parseFloat(retryMatch[1])) + 2, 65) : 15;
+      if (attempt < retries && (msg.includes('429') || msg.includes('503'))) {
+        console.log(`  Rate limited — retrying in ${waitSec}s...`);
+        await new Promise(r => setTimeout(r, waitSec * 1000));
+      } else {
+        throw err;
+      }
+    }
+  }
+  throw new Error('Max retries exceeded');
+}
+
 export async function classifyDocument(imagePath: string): Promise<{ type: DocType; confidence: number; reasoning: string }> {
   const b64 = imageToBase64(imagePath);
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 256,
-    messages: [{
-      role: 'user',
-      content: [
-        { type: 'image', source: { type: 'base64', media_type: 'image/png', data: b64 } },
-        { type: 'text', text: 'What type of medical document is this? Choose exactly one of: receipt, discharge_summary, lab_report, prescription. Return only valid JSON: {"type": "...", "confidence": 0.0-1.0, "reasoning": "one sentence"}' }
-      ]
-    }]
-  });
+  const text = await generateWithRetry([
+    { inlineData: { data: b64, mimeType: 'image/png' } },
+    'What type of medical document is this? Choose exactly one of: receipt, discharge_summary, lab_report, prescription. Return only valid JSON: {"document_type": "...", "confidence": 0.0-1.0, "reasoning": "one sentence"}'
+  ]);
 
-  const text = response.content[0].type === 'text' ? response.content[0].text : '';
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error(`Classification parse failed: ${text}`);
   const parsed = ClassificationResultSchema.parse(JSON.parse(jsonMatch[0]));
@@ -84,20 +97,11 @@ export async function classifyDocument(imagePath: string): Promise<{ type: DocTy
 
 export async function extractFields(imagePath: string, docType: DocType): Promise<Record<string, unknown>> {
   const b64 = imageToBase64(imagePath);
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 2048,
-    system: [{ type: 'text', text: EXTRACTION_SYSTEM, cache_control: { type: 'ephemeral' } }],
-    messages: [{
-      role: 'user',
-      content: [
-        { type: 'image', source: { type: 'base64', media_type: 'image/png', data: b64 } },
-        { type: 'text', text: EXTRACTION_PROMPTS[docType] }
-      ]
-    }]
-  });
+  const text = await generateWithRetry([
+    { inlineData: { data: b64, mimeType: 'image/png' } },
+    EXTRACTION_SYSTEM + '\n\n' + EXTRACTION_PROMPTS[docType]
+  ]);
 
-  const text = response.content[0].type === 'text' ? response.content[0].text : '';
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error(`Extraction parse failed: ${text}`);
   return JSON.parse(jsonMatch[0]) as Record<string, unknown>;

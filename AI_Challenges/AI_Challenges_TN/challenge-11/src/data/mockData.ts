@@ -106,21 +106,41 @@ export const policyDB: Record<string, unknown> = {
 // ── Document Store ───────────────────────────────────────────────────────────
 export const documentStore: Record<string, Record<string, unknown>> = {
   "CLM-001": {
-    referral: { present: true, valid: true, docId: "DOC-001-REF" },
-    medicalReport: { present: true, valid: true, docId: "DOC-001-MED" },
-    itemizedReceipt: { present: true, valid: true, docId: "DOC-001-REC" },
+    referral:        { present: true,  valid: true,  docId: "DOC-001-REF", documentType: "referral" },
+    medicalReport:   { present: true,  valid: true,  docId: "DOC-001-MED", documentType: "medicalReport" },
+    itemizedReceipt: { present: true,  valid: true,  docId: "DOC-001-REC", documentType: "itemizedReceipt" },
   },
   "CLM-002": {
-    referral: { present: true, valid: true, docId: "DOC-002-REF" },
-    medicalReport: { present: true, valid: true, docId: "DOC-002-MED" },
-    itemizedReceipt: { present: true, valid: true, docId: "DOC-002-REC" },
-    dischargeReport: { present: true, valid: true, docId: "DOC-002-DIS" },
+    referral:        { present: true,  valid: true,  docId: "DOC-002-REF", documentType: "referral" },
+    medicalReport:   { present: true,  valid: true,  docId: "DOC-002-MED", documentType: "medicalReport" },
+    itemizedReceipt: { present: true,  valid: true,  docId: "DOC-002-REC", documentType: "itemizedReceipt" },
+    dischargeReport: { present: true,  valid: true,  docId: "DOC-002-DIS", documentType: "dischargeReport" },
   },
   "CLM-003": {
-    itemizedInvoice: { present: true, valid: true, docId: "DOC-003-INV" },
-    treatmentPlan: { present: false, valid: false, docId: null, reason: "Treatment plan was not submitted with the claim" },
+    itemizedInvoice: { present: true,  valid: true,  docId: "DOC-003-INV", documentType: "itemizedInvoice" },
+    treatmentPlan:   { present: false, valid: false, docId: null,          documentType: "treatmentPlan", reason: "Treatment plan was not submitted with the claim" },
+  },
+  "CLM-004": {
+    // Wrong type submitted: member sent a referral where a medicalReport is required.
+    // referral is present but does not satisfy medicalReport requirement.
+    referral:        { present: true,  valid: true,  docId: "DOC-004-REF", documentType: "referral" },
+    medicalReport:   { present: true,  valid: false, docId: "DOC-004-MED", documentType: "medicalReport",
+                       reason: "Document submitted does not match expected type: received referral letter instead of medical report. Please resubmit with the correct document." },
+    itemizedReceipt: { present: true,  valid: true,  docId: "DOC-004-REC", documentType: "itemizedReceipt" },
   },
 };
+
+// ── Flat Document Index (keyed by docId for verifyDocument(documentId) spec) ─
+export const documentIndex: Record<string, unknown> = Object.fromEntries(
+  Object.entries(documentStore).flatMap(([claimId, docs]) =>
+    Object.entries(docs)
+      .filter(([, doc]) => (doc as Record<string, unknown>).docId)
+      .map(([documentType, doc]) => {
+        const d = doc as Record<string, unknown>;
+        return [d.docId as string, { claimId, documentType, ...d }];
+      })
+  )
+);
 
 // ── Medical Necessity Lookup Table ───────────────────────────────────────────
 export const medicalNecessityTable: Record<string, { isNecessary: boolean; rationale: string }> = {
@@ -193,8 +213,22 @@ export const testCases: ClaimInput[] = [
     procedureCode: "D2750",
     claimAmount: 2800,
     dateOfService: "2025-05-14",
-    submittedDocuments: ["itemizedInvoice"],
+    submittedDocuments: ["itemizedInvoice", "treatmentPlan"],
     description: "Dental crown procedure for tooth decay. Policy covers dental up to $10,000/year with $138,000 remaining on annual limit. However, the required dentist-signed treatment plan was not submitted.",
+    expectedOutcome: "REQUEST_MORE_INFO",
+  },
+  {
+    caseId: "case_4",
+    claimId: "CLM-004",
+    memberId: "MEM-001",
+    policyId: "POL-001",
+    claimType: "Outpatient",
+    diagnosisCode: "M54.5",
+    procedureCode: "99213",
+    claimAmount: 800,
+    dateOfService: "2025-06-01",
+    submittedDocuments: ["referral", "medicalReport", "itemizedReceipt"],
+    description: "Outpatient visit for low back pain. All three document slots submitted, but the medicalReport slot contains a referral letter instead of an actual medical report — wrong document type. Policy and medical necessity are otherwise valid.",
     expectedOutcome: "REQUEST_MORE_INFO",
   },
 ];

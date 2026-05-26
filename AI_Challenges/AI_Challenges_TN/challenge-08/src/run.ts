@@ -10,8 +10,8 @@ const DOCS_DIR = path.join(__dirname, '..', 'docs');
 const RESULTS_DIR = path.join(__dirname, '..', 'results');
 
 async function main() {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY not set');
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY not set');
     process.exit(1);
   }
 
@@ -55,8 +55,8 @@ async function main() {
       allResults.push({ file: filename, error: String(err) });
     }
 
-    // Delay between docs — 2 API calls per doc, free tier is 15 RPM
-    await new Promise(r => setTimeout(r, 5000));
+    // Delay between docs — 2 API calls per doc, gemini-2.5-flash free tier is 5 RPM
+    await new Promise(r => setTimeout(r, 15000));
   }
 
   writeFileSync(path.join(RESULTS_DIR, 'all_results.json'), JSON.stringify(allResults, null, 2));

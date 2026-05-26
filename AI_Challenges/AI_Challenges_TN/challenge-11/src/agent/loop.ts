@@ -48,11 +48,11 @@ function formatClaimForAssessment(claim: ClaimInput): string {
 **Diagnosis Code:** ${claim.diagnosisCode}
 **Procedure Code:** ${claim.procedureCode}
 **Claim Amount:** $${claim.claimAmount.toLocaleString()}
-**Submitted Documents:** ${claim.submittedDocuments.join(", ")}
+**Submitted Documents:** ${claim.submittedDocuments.join(", ")} (use each name as the documentId when calling verifyDocument)
 
 **Description:** ${claim.description}
 
-Follow the mandatory tool call sequence: verify ALL documents → lookup policy → check medical necessity → calculate benefit. Then produce the structured assessment report.`;
+Follow the mandatory tool call sequence: verify ALL documents → lookup policy (then verify dateOfService is within coverage period) → check medical necessity → calculate benefit. Then produce the structured assessment report.`;
 }
 
 function parseAssessmentReport(raw: string, caseId: string, claimId: string): AssessmentReport {

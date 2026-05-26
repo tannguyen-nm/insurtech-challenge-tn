@@ -1,21 +1,21 @@
 # Challenge 08 — Medical Document Extractor
 
-**Deployment:** None — CLI pipeline only. Requires `ANTHROPIC_API_KEY`.
+**Deployment:** None — CLI pipeline only. Requires `GEMINI_API_KEY`.
 
 ## What it does
 
-Generates mock medical document PNGs (receipts, discharge summaries, lab reports, prescriptions) then extracts structured data from each using Claude's vision API. Returns per-field values with confidence scores and validation errors.
+Generates mock medical document PNGs (receipts, discharge summaries, lab reports, prescriptions) then extracts structured data from each using Gemini's vision API. Returns per-field values with confidence scores and validation errors.
 
 ## Stack
 
-Node.js + TypeScript + tsx · `@anthropic-ai/sdk` (Claude claude-sonnet-4-6) · Puppeteer · Zod
+Node.js + TypeScript + tsx · `@google/generative-ai` (gemini-2.5-flash) · Puppeteer · Zod
 
 ## Setup
 
 ```bash
 npm install
 cp .env.example .env
-# Add ANTHROPIC_API_KEY to .env
+# Add GEMINI_API_KEY to .env
 ```
 
 ## Run

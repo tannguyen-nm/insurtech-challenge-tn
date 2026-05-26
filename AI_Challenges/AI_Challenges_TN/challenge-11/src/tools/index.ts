@@ -1,4 +1,4 @@
-import { policyDB, documentStore, medicalNecessityTable } from "../data/mockData";
+import { policyDB, documentStore, documentIndex, medicalNecessityTable } from "../data/mockData";
 import type { FunctionDeclaration } from "@google/generative-ai";
 import { SchemaType } from "@google/generative-ai";
 
@@ -17,14 +17,13 @@ export const toolDeclarations: FunctionDeclaration[] = [
   },
   {
     name: "verifyDocument",
-    description: "Verify whether a specific document has been submitted and is valid for a given claim. Call this once per document type. Must verify ALL documents listed in the claim before proceeding.",
+    description: "Verify whether a specific document has been submitted and is valid. Call with the documentId from the claim's submitted document list. Call once per document — verify ALL documents listed before proceeding.",
     parameters: {
       type: SchemaType.OBJECT,
       properties: {
-        claimId: { type: SchemaType.STRING, description: "The claim ID" },
-        documentType: { type: SchemaType.STRING, description: "Document type to verify (e.g. referral, medicalReport, itemizedReceipt, treatmentPlan, dischargeReport, itemizedInvoice)" },
+        documentId: { type: SchemaType.STRING, description: "The document ID to verify (e.g. referral, medicalReport, itemizedReceipt, treatmentPlan, dischargeReport, itemizedInvoice, or a DOC-xxx ID)" },
       },
-      required: ["claimId", "documentType"],
+      required: ["documentId"],
     },
   },
   {
@@ -66,21 +65,30 @@ export function executeTool(name: string, input: Record<string, unknown>): unkno
     }
 
     case "verifyDocument": {
-      const claimId = input.claimId as string;
-      const documentType = input.documentType as string;
-      const claimDocs = documentStore[claimId];
-      if (!claimDocs) return { error: `No documents found for claim ${claimId}` };
-      const doc = claimDocs[documentType];
-      if (!doc) {
-        return {
-          claimId,
-          documentType,
-          present: false,
-          valid: false,
-          reason: `Document type '${documentType}' was not submitted with claim ${claimId}`,
-        };
+      const documentId = input.documentId as string;
+
+      // Primary lookup: flat index by documentId (e.g. "DOC-001-REF") or document type name
+      if (documentIndex[documentId]) {
+        return documentIndex[documentId];
       }
-      return { claimId, documentType, ...doc };
+
+      // Fallback: treat documentId as a document type name, search across all claims
+      for (const [claimId, docs] of Object.entries(documentStore)) {
+        if (docs[documentId] !== undefined) {
+          const doc = docs[documentId] as Record<string, unknown>;
+          if (!doc.present) {
+            return { documentId, claimId, documentType: documentId, present: false, valid: false, reason: doc.reason ?? "Document not submitted" };
+          }
+          return { documentId, claimId, documentType: documentId, ...doc };
+        }
+      }
+
+      return {
+        documentId,
+        present: false,
+        valid: false,
+        reason: `Document '${documentId}' not found in any claim submission`,
+      };
     }
 
     case "checkMedicalNecessity": {

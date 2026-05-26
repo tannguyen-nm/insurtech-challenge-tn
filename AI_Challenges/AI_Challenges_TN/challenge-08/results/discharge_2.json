@@ -3,21 +3,35 @@
   "expected_type": "discharge_summary",
   "classified_correctly": true,
   "document_type": "discharge_summary",
-  "confidence": 0.99,
-  "_reasoning": "Discharge Summary with cardiac CCU department, multiple ICD-coded diagnoses, PCI procedure notation, and cardiologist signature.",
+  "confidence": 1,
   "fields": {
-    "hospital_name": { "value": "Ramathibodi Hospital", "confidence": 0.99 },
-    "patient_name": { "value": "Le Van Minh", "confidence": 0.97 },
-    "admission_date": { "value": "2024-06-01", "confidence": 0.99 },
-    "discharge_date": { "value": "2024-06-05", "confidence": 0.99 },
-    "diagnosis_primary": { "value": "Acute Myocardial Infarction — NSTEMI (I21.4)", "confidence": 0.99 },
+    "hospital_name": {
+      "value": "Ramathibodi Hospital",
+      "confidence": 1
+    },
+    "patient_name": {
+      "value": "Le Van Minh",
+      "confidence": 1
+    },
+    "admission_date": {
+      "value": "2024-06-01",
+      "confidence": 1
+    },
+    "discharge_date": {
+      "value": "2024-06-05",
+      "confidence": 1
+    },
+    "diagnosis_primary": {
+      "value": "Acute Myocardial Infarction — NSTEMI (I21.4)",
+      "confidence": 1
+    },
     "diagnosis_secondary": {
       "value": [
         "Type 2 Diabetes Mellitus (E11.9)",
         "Hypertension (I10)",
         "Hyperlipidemia (E78.5)"
       ],
-      "confidence": 0.98
+      "confidence": 1
     },
     "procedures_performed": {
       "value": [
@@ -26,13 +40,17 @@
         "Echocardiography",
         "Continuous cardiac monitoring"
       ],
-      "confidence": 0.98
+      "confidence": 1
     },
-    "attending_physician": { "value": "Dr. Supawit Tangsrirat, MD — Interventional Cardiology", "confidence": 0.98 },
+    "attending_physician": {
+      "value": "Dr. Supawit Tangsrirat, MD",
+      "confidence": 1
+    },
     "discharge_instructions": {
       "value": "Strict low-sodium, low-fat diet. Take all cardiac medications as prescribed (Aspirin, Clopidogrel, Atorvastatin, Metoprolol). Cardiac rehabilitation program enrollment. Follow-up with cardiologist in 2 weeks. Avoid strenuous activity for 4 weeks.",
-      "confidence": 0.96
+      "confidence": 1
     }
   },
-  "validation_errors": []
+  "validation_errors": [],
+  "_reasoning": "The document's main title explicitly states 'DISCHARGE SUMMARY', and its content includes patient details, diagnosis, procedures, and discharge instructions, which are all characteristic of a discharge summary."
 }

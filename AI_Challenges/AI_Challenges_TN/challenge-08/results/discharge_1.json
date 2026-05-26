@@ -3,28 +3,51 @@
   "expected_type": "discharge_summary",
   "classified_correctly": true,
   "document_type": "discharge_summary",
-  "confidence": 0.99,
-  "_reasoning": "Document titled 'Discharge Summary' with admission/discharge dates, diagnosis section with ICD codes, procedures performed list, and physician signature block.",
+  "confidence": 1,
   "fields": {
-    "hospital_name": { "value": "Chulalongkorn Hospital", "confidence": 0.99 },
-    "patient_name": { "value": "Pranee Suksomboon", "confidence": 0.98 },
-    "admission_date": { "value": "2024-04-10", "confidence": 0.99 },
-    "discharge_date": { "value": "2024-04-13", "confidence": 0.99 },
-    "diagnosis_primary": { "value": "Acute Appendicitis (K35.8)", "confidence": 0.99 },
-    "diagnosis_secondary": { "value": ["Mild Dehydration (E86.0)"], "confidence": 0.97 },
+    "hospital_name": {
+      "value": "Chulalongkorn Hospital",
+      "confidence": 1
+    },
+    "patient_name": {
+      "value": "Pranee Suksomboon",
+      "confidence": 1
+    },
+    "admission_date": {
+      "value": "2024-04-10",
+      "confidence": 1
+    },
+    "discharge_date": {
+      "value": "2024-04-13",
+      "confidence": 1
+    },
+    "diagnosis_primary": {
+      "value": "Acute Appendicitis (K35.8)",
+      "confidence": 1
+    },
+    "diagnosis_secondary": {
+      "value": [
+        "Mild Dehydration (E86.0)"
+      ],
+      "confidence": 1
+    },
     "procedures_performed": {
       "value": [
         "Laparoscopic Appendectomy",
         "IV Fluid Resuscitation",
         "Post-operative wound care"
       ],
-      "confidence": 0.98
+      "confidence": 1
     },
-    "attending_physician": { "value": "Dr. Chaiwat Phromthai, MD — General Surgery", "confidence": 0.97 },
+    "attending_physician": {
+      "value": "Dr. Chaiwat Phromthai, MD — General Surgery",
+      "confidence": 1
+    },
     "discharge_instructions": {
       "value": "Rest for 2 weeks. Avoid heavy lifting. Follow up in outpatient clinic in 7 days. Take prescribed antibiotics (Amoxicillin 500mg) for 5 days. Return to ER if fever >38.5°C or wound discharge noted.",
-      "confidence": 0.96
+      "confidence": 1
     }
   },
-  "validation_errors": []
+  "validation_errors": [],
+  "_reasoning": "The document title explicitly states 'DISCHARGE SUMMARY' and contains typical elements such as patient demographics, diagnoses, procedures, and discharge instructions."
 }

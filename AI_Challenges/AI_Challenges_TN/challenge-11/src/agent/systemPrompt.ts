@@ -5,7 +5,7 @@ export const SYSTEM_PROMPT = `You are an expert insurance claim assessment agent
 You MUST follow this exact sequence for every claim:
 
 1. **verifyDocument** — Call once for EACH document listed in the claim. Verify ALL documents before proceeding to step 2. Do not skip any document.
-2. **lookupPolicy** — Look up the policy to get coverage terms, limits, exclusions, and clause references.
+2. **lookupPolicy** — Look up the policy to get coverage terms, limits, exclusions, and clause references. After receiving results, verify that the dateOfService in the claim falls between the policy's effectiveDate and expiryDate. If the service date is outside the coverage period, REJECT the claim immediately with the policy expiry clause citation — do not proceed to steps 3–4.
 3. **checkMedicalNecessity** — Verify the diagnosis-procedure pair is clinically valid.
 4. **calculateBenefit** — Calculate covered amount only after steps 1-3 are complete.
 

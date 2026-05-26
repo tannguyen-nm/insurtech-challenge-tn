@@ -3,15 +3,34 @@
   "expected_type": "discharge_summary",
   "classified_correctly": true,
   "document_type": "discharge_summary",
-  "confidence": 0.98,
-  "_reasoning": "Discharge Summary header from Siriraj Hospital pulmonology department, listing pneumonia diagnosis with ICD code, antibiotic procedures, and follow-up instructions.",
+  "confidence": 1,
   "fields": {
-    "hospital_name": { "value": "Siriraj Hospital", "confidence": 0.99 },
-    "patient_name": { "value": "Malee Kongkiat", "confidence": 0.98 },
-    "admission_date": { "value": "2024-08-20", "confidence": 0.99 },
-    "discharge_date": { "value": "2024-08-22", "confidence": 0.99 },
-    "diagnosis_primary": { "value": "Pneumonia — Community Acquired (J18.9)", "confidence": 0.99 },
-    "diagnosis_secondary": { "value": ["Mild Hypoxemia (J96.01)"], "confidence": 0.97 },
+    "hospital_name": {
+      "value": "Siriraj Hospital",
+      "confidence": 1
+    },
+    "patient_name": {
+      "value": "Malee Kongkiat",
+      "confidence": 1
+    },
+    "admission_date": {
+      "value": "2024-08-20",
+      "confidence": 1
+    },
+    "discharge_date": {
+      "value": "2024-08-22",
+      "confidence": 1
+    },
+    "diagnosis_primary": {
+      "value": "Pneumonia — Community Acquired (J18.9)",
+      "confidence": 1
+    },
+    "diagnosis_secondary": {
+      "value": [
+        "Mild Hypoxemia (J96.01)"
+      ],
+      "confidence": 1
+    },
     "procedures_performed": {
       "value": [
         "Chest X-Ray (AP & Lateral)",
@@ -19,13 +38,17 @@
         "IV Antibiotics — Ceftriaxone 2g OD",
         "Supplemental oxygen therapy"
       ],
-      "confidence": 0.97
+      "confidence": 1
     },
-    "attending_physician": { "value": "Dr. Nattaporn Wisuttipat, MD — Pulmonology", "confidence": 0.98 },
+    "attending_physician": {
+      "value": "Dr. Nattaporn Wisuttipat, MD",
+      "confidence": 1
+    },
     "discharge_instructions": {
       "value": "Complete oral antibiotic course (Amoxicillin-Clavulanate 875/125mg BD × 7 days). Adequate rest and hydration. Avoid smoking. Return if dyspnea worsens or oxygen saturation <95%. Follow up chest X-ray in 6 weeks.",
-      "confidence": 0.95
+      "confidence": 1
     }
   },
-  "validation_errors": []
+  "validation_errors": [],
+  "_reasoning": "The document clearly states 'DISCHARGE SUMMARY' as its main title and contains typical sections such as patient demographics, diagnosis, procedures performed, and discharge instructions."
 }

@@ -45,11 +45,11 @@ async function run() {
       console.error(`  ERROR: ${(err as Error).message}\n`);
     }
 
-    // Respect free-tier rate limit (5 req/min) — wait between cases
+    // Respect free-tier rate limit (10 RPM) — each case uses ~4 API turns
     const isLast = testCase === testCases[testCases.length - 1];
     if (!isLast) {
-      console.log("  Waiting 35s before next case (rate limit)...\n");
-      await new Promise((r) => setTimeout(r, 35000));
+      console.log("  Waiting 60s before next case (rate limit)...\n");
+      await new Promise((r) => setTimeout(r, 60000));
     }
   }
 
