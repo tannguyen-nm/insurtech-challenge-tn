@@ -319,7 +319,8 @@ export default function WizardForm() {
         ) : (
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-2.5 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-colors"
+            disabled={!watch('confirmed')}
+            className="flex items-center gap-2 px-6 py-2.5 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Submit Claim
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
