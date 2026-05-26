@@ -1,4 +1,4 @@
-import type { TenantConfig, TenantVersion } from './types'
+import type { TenantConfig, TenantVersion, ClaimType, NotificationEvent, Channel } from './types'
 import { CLAIM_TYPES, NOTIFICATION_EVENTS } from './types'
 
 function makeVersion(config: TenantConfig): TenantVersion {
@@ -9,10 +9,25 @@ function disabledType() {
   return { enabled: false, requiredDocs: [], optionalDocs: [] }
 }
 
-function allNotifications(channels: TenantConfig['notifications'][keyof TenantConfig['notifications']]['channels']): TenantConfig['notifications'] {
+type NotifMap = Record<ClaimType, Record<NotificationEvent, { channels: Channel[]; customTemplate?: string }>>
+
+function buildNotifications(
+  enabledTypes: ClaimType[],
+  perEvent: Partial<Record<NotificationEvent, Channel[]>>,
+  defaultChannels: Channel[]
+): NotifMap {
+  const allTypes = CLAIM_TYPES
   return Object.fromEntries(
-    NOTIFICATION_EVENTS.map(e => [e, { channels }])
-  ) as TenantConfig['notifications']
+    allTypes.map(t => [
+      t,
+      Object.fromEntries(
+        NOTIFICATION_EVENTS.map(e => [
+          e,
+          { channels: enabledTypes.includes(t) ? (perEvent[e] ?? defaultChannels) : [] },
+        ])
+      ),
+    ])
+  ) as NotifMap
 }
 
 function allSla(targetBusinessDays: number, escalateTo: string): TenantConfig['sla'] {
@@ -22,8 +37,7 @@ function allSla(targetBusinessDays: number, escalateTo: string): TenantConfig['s
 }
 
 // Tenant A — SafeGuard Insurance (Corporate)
-// OUTPATIENT, INPATIENT, DENTAL · auto-approval 20,000 · 3-tier (assessor → team lead → director)
-// email only · SLA 5d outpatient, 10d inpatient · custom field: Employee ID
+// OUTPATIENT, INPATIENT, DENTAL · auto-approval 20,000 · 3-tier · email only · SLA 5d/10d · Employee ID
 const safeguard: TenantConfig = {
   tenantId: 'safeguard',
   name: 'SafeGuard Insurance',
@@ -56,11 +70,22 @@ const safeguard: TenantConfig = {
       { maxAmount: 999999, requiredRole: 'Director' },
     ],
   },
-  notifications: allNotifications(['EMAIL']),
+  notifications: buildNotifications(
+    ['OUTPATIENT', 'INPATIENT', 'DENTAL'],
+    {
+      CLAIM_SUBMITTED: ['EMAIL'],
+      CLAIM_APPROVED: ['EMAIL'],
+      CLAIM_REJECTED: ['EMAIL'],
+      PAYMENT_SENT: ['EMAIL'],
+      DOCUMENT_REQUESTED: ['EMAIL'],
+      SLA_BREACH: ['EMAIL'],
+    },
+    ['EMAIL']
+  ),
   sla: {
     OUTPATIENT: { targetBusinessDays: 5, escalateTo: 'claims@safeguard-ins.com' },
     INPATIENT: { targetBusinessDays: 10, escalateTo: 'claims@safeguard-ins.com' },
-    DENTAL: { targetBusinessDays: 5, escalateTo: 'claims@safeguard-ins.com' },
+    DENTAL: { targetBusinessDays: 5, escalateTo: 'dental@safeguard-ins.com' },
     LIFE: { targetBusinessDays: 14, escalateTo: 'claims@safeguard-ins.com' },
     MATERNITY: { targetBusinessDays: 7, escalateTo: 'claims@safeguard-ins.com' },
     OPTICAL: { targetBusinessDays: 5, escalateTo: 'claims@safeguard-ins.com' },
@@ -71,8 +96,8 @@ const safeguard: TenantConfig = {
 }
 
 // Tenant B — HealthFirst (Retail)
-// OUTPATIENT, INPATIENT, DENTAL, MATERNITY, OPTICAL · auto-approval 5,000 · 2-tier (assessor → manager)
-// email + SMS · SLA 7 days all types · no custom fields
+// OUTPATIENT, INPATIENT, DENTAL, MATERNITY, OPTICAL · auto-approval 5,000 · 2-tier
+// email + SMS (member-facing events); INPATIENT adds WEBHOOK for hospital integration
 const healthfirst: TenantConfig = {
   tenantId: 'healthfirst',
   name: 'HealthFirst',
@@ -112,14 +137,34 @@ const healthfirst: TenantConfig = {
       { maxAmount: 999999, requiredRole: 'Manager' },
     ],
   },
-  notifications: allNotifications(['EMAIL', 'SMS']),
+  notifications: (() => {
+    const base = buildNotifications(
+      ['OUTPATIENT', 'DENTAL', 'MATERNITY', 'OPTICAL'],
+      {
+        CLAIM_SUBMITTED: ['EMAIL'],
+        CLAIM_APPROVED: ['EMAIL', 'SMS'],
+        CLAIM_REJECTED: ['EMAIL', 'SMS'],
+        PAYMENT_SENT: ['EMAIL', 'SMS'],
+        DOCUMENT_REQUESTED: ['EMAIL', 'SMS'],
+        SLA_BREACH: ['EMAIL'],
+      },
+      ['EMAIL', 'SMS']
+    )
+    // INPATIENT gets webhook in addition (hospital system integration)
+    NOTIFICATION_EVENTS.forEach(e => {
+      base['INPATIENT'][e].channels = e === 'SLA_BREACH'
+        ? ['EMAIL', 'WEBHOOK']
+        : ['EMAIL', 'SMS', 'WEBHOOK']
+    })
+    return base
+  })(),
   sla: allSla(7, 'ops@healthfirst.com'),
   customFields: [],
 }
 
 // Tenant C — GovHealth (Government)
-// OUTPATIENT, INPATIENT only · auto-approval 0 (all manual) · single-tier (committee)
-// email + webhook · SLA 15 days all types · custom fields: Department (required), Budget Code (required)
+// OUTPATIENT, INPATIENT · auto-approval 0 · committee single-tier
+// email + webhook (all events feed audit system)
 const govhealth: TenantConfig = {
   tenantId: 'govhealth',
   name: 'GovHealth',
@@ -146,7 +191,18 @@ const govhealth: TenantConfig = {
       { maxAmount: 999999, requiredRole: 'Committee' },
     ],
   },
-  notifications: allNotifications(['EMAIL', 'WEBHOOK']),
+  notifications: buildNotifications(
+    ['OUTPATIENT', 'INPATIENT'],
+    {
+      CLAIM_SUBMITTED: ['EMAIL', 'WEBHOOK'],
+      CLAIM_APPROVED: ['EMAIL', 'WEBHOOK'],
+      CLAIM_REJECTED: ['EMAIL', 'WEBHOOK'],
+      PAYMENT_SENT: ['EMAIL', 'WEBHOOK'],
+      DOCUMENT_REQUESTED: ['EMAIL'],
+      SLA_BREACH: ['EMAIL', 'WEBHOOK'],
+    },
+    ['EMAIL', 'WEBHOOK']
+  ),
   sla: allSla(15, 'claims@govhealth.gov'),
   customFields: [
     { name: 'Department', required: true, type: 'text' },

@@ -27,6 +27,7 @@ export interface Claim {
   payment_reference?: string;
   payment_request_id?: string;
   appeal_acknowledged?: boolean;
+  appeal_period_expired?: boolean;
   assessment_start_time?: string;
   pending_info_cycle_count: number;
 }
@@ -117,7 +118,7 @@ export class PreconditionFailedError extends Error {
 export class MaxCyclesExceededError extends Error {
   constructor() {
     super(
-      'Maximum information requests exceeded (3 cycles). Escalate to team lead.'
+      'Maximum information requests exceeded — escalate to team lead'
     );
     this.name = 'MaxCyclesExceededError';
   }

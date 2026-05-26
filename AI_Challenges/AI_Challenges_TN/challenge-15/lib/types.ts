@@ -55,7 +55,7 @@ export interface TenantConfig {
     autoApprovalThreshold: number
     tiers: ApprovalTier[]
   }
-  notifications: Record<NotificationEvent, NotificationConfig>
+  notifications: Record<ClaimType, Record<NotificationEvent, NotificationConfig>>
   sla: Record<ClaimType, SLAConfig>
   customFields: CustomField[]
 }

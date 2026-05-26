@@ -14,7 +14,10 @@ const defaultConfig: TenantConfig = {
     tiers: [{ maxAmount: 10000, requiredRole: 'Claims Manager' }],
   },
   notifications: Object.fromEntries(
-    NOTIFICATION_EVENTS.map((e) => [e, { channels: ['EMAIL'] }])
+    CLAIM_TYPES.map((t) => [
+      t,
+      Object.fromEntries(NOTIFICATION_EVENTS.map((e) => [e, { channels: ['EMAIL'] }])),
+    ])
   ) as unknown as TenantConfig['notifications'],
   sla: Object.fromEntries(
     CLAIM_TYPES.map((t) => [t, { targetBusinessDays: 5, escalateTo: '' }])

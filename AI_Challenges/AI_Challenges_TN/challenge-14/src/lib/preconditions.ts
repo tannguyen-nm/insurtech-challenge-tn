@@ -1,4 +1,4 @@
-import type { Claim, PreconditionDef } from '../types';
+import type { PreconditionDef, Claim } from '../types';
 import { PreconditionFailedError } from '../types';
 
 type Evaluator = (claim: Claim) => { pass: boolean; detail?: string };
@@ -21,13 +21,16 @@ const registry: Record<string, Evaluator> = {
     detail: claim.assessment_report ? undefined : 'Assessment report has not been submitted',
   }),
 
-  amount_within_policy_limit: (claim) => ({
-    pass: claim.requested_amount <= claim.policy_annual_limit,
-    detail:
-      claim.requested_amount > claim.policy_annual_limit
-        ? `Requested amount ${claim.requested_amount} exceeds policy limit ${claim.policy_annual_limit}`
-        : undefined,
-  }),
+  amount_within_policy_limit: (claim) => {
+    const amount = claim.approved_amount ?? claim.requested_amount;
+    return {
+      pass: amount <= claim.policy_annual_limit,
+      detail:
+        amount > claim.policy_annual_limit
+          ? `Approved amount ${amount} exceeds policy limit ${claim.policy_annual_limit}`
+          : undefined,
+    };
+  },
 
   rejection_reason_provided: (claim) => ({
     pass: !!claim.rejection_reason,
@@ -49,10 +52,10 @@ const registry: Record<string, Evaluator> = {
     detail: claim.payment_reference ? undefined : 'Payment has not been confirmed (no payment reference)',
   }),
 
-  appeal_period_expired: (claim) => {
-    // Simplified: check if claim has an explicit flag; in real system, check date
-    return { pass: !!(claim as Claim & { appeal_period_expired?: boolean }).appeal_period_expired };
-  },
+  appeal_period_expired: (claim) => ({
+    pass: !!claim.appeal_period_expired,
+    detail: claim.appeal_period_expired ? undefined : 'Appeal period has not expired',
+  }),
 
   member_acknowledged_rejection: (claim) => ({
     pass: !!claim.appeal_acknowledged,

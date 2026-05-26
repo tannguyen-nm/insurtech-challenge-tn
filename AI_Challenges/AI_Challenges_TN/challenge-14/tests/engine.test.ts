@@ -86,7 +86,7 @@ test('REJECTED → CLOSED passes when member acknowledged', () => {
 test('REJECTED → CLOSED passes when appeal period expired', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ claim_id: 'CLM-EXP-001', current_state: 'REJECTED' });
-  (claim as Claim & { appeal_period_expired?: boolean }).appeal_period_expired = true;
+  claim.appeal_period_expired = true;
   engine.transition(claim, 'CLOSED', SYSTEM);
   expect(claim.current_state).toBe('CLOSED');
 });
@@ -182,7 +182,35 @@ test('pending_info_cycle_count increments after each PENDING_INFO transition', (
   expect(claim.pending_info_cycle_count).toBe(1);
 });
 
-// ── 16. Side effect: create_payment_request sets payment_request_id ──────
+// ── 16. PreconditionFailedError: approved_amount exceeds policy limit ────
+test('UNDER_ASSESSMENT → APPROVED fails when approved_amount exceeds policy limit', () => {
+  const engine = new WorkflowEngine(config);
+  const claim = makeClaim({
+    current_state: 'UNDER_ASSESSMENT',
+    requested_amount: 5000,
+    policy_annual_limit: 3000,
+  });
+  claim.assessment_report = 'All clear';
+  claim.approved_amount = 4000; // exceeds limit of 3000
+  expect(() => engine.transition(claim, 'APPROVED', ASSESSOR)).toThrow(PreconditionFailedError);
+});
+
+// ── 17. amount_within_policy_limit uses approved_amount over requested ────
+test('UNDER_ASSESSMENT → APPROVED passes when approved_amount within limit despite high requested_amount', () => {
+  const engine = new WorkflowEngine(config);
+  const claim = makeClaim({
+    current_state: 'UNDER_ASSESSMENT',
+    requested_amount: 60000, // exceeds limit
+    policy_annual_limit: 50000,
+  });
+  claim.assessment_report = 'Partial approval';
+  claim.approved_amount = 40000; // within limit
+  const result = engine.transition(claim, 'APPROVED', ASSESSOR);
+  expect(result.success).toBe(true);
+  expect(claim.current_state).toBe('APPROVED');
+});
+
+// ── 18. Side effect: create_payment_request sets payment_request_id ──────
 test('APPROVED side effect creates payment_request_id', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ current_state: 'UNDER_ASSESSMENT' });
@@ -193,7 +221,7 @@ test('APPROVED side effect creates payment_request_id', () => {
   expect(claim.payment_request_id).toMatch(/^PAY-REQ-/);
 });
 
-// ── 17. Side effect: log_timestamp sets assessment_start_time ────────────
+// ── 19. Side effect: log_timestamp sets assessment_start_time ────────────
 test('UNDER_ASSESSMENT side effect sets assessment_start_time', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ current_state: 'DOCUMENTS_VERIFIED' });
@@ -202,7 +230,7 @@ test('UNDER_ASSESSMENT side effect sets assessment_start_time', () => {
   expect(claim.assessment_start_time).toBeDefined();
 });
 
-// ── 18. Audit trail appended per transition ──────────────────────────────
+// ── 20. Audit trail appended per transition ──────────────────────────────
 test('audit trail records all transitions for claim', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ claim_id: 'CLM-AUDIT-001' });
@@ -218,7 +246,7 @@ test('audit trail records all transitions for claim', () => {
   expect(trail[1].to_state).toBe('UNDER_ASSESSMENT');
 });
 
-// ── 19. Audit trail filtered by claim_id ─────────────────────────────────
+// ── 21. Audit trail filtered by claim_id ─────────────────────────────────
 test('getAuditTrail returns only entries for specified claim', () => {
   const engine = new WorkflowEngine(config);
   const claimA = makeClaim({ claim_id: 'CLM-A' });
@@ -231,7 +259,7 @@ test('getAuditTrail returns only entries for specified claim', () => {
   expect(trailA[0].claim_id).toBe('CLM-A');
 });
 
-// ── 20. getValidTransitions respects current state ────────────────────────
+// ── 22. getValidTransitions respects current state ────────────────────────
 test('getValidTransitions returns transitions from current state', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ current_state: 'UNDER_ASSESSMENT' });
@@ -243,7 +271,7 @@ test('getValidTransitions returns transitions from current state', () => {
   expect(targets).not.toContain('SUBMITTED');
 });
 
-// ── 21. getValidTransitions filtered by actor role ────────────────────────
+// ── 23. getValidTransitions filtered by actor role ────────────────────────
 test('getValidTransitions filters by actor role', () => {
   const engine = new WorkflowEngine(config);
   const claim = makeClaim({ current_state: 'UNDER_ASSESSMENT' });

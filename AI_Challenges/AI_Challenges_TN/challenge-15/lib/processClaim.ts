@@ -35,8 +35,9 @@ export function processClaim(config: TenantConfig, input: ProcessClaimInput): Pr
     approvalRouting = { tier: tierIndex, requiredRole: matched.requiredRole }
   }
 
-  // Notifications
-  const notifications = Object.entries(config.notifications).map(([event, cfg]) => ({
+  // Notifications — scoped to claim type
+  const notifConfig = config.notifications[input.claimType] ?? {}
+  const notifications = Object.entries(notifConfig).map(([event, cfg]) => ({
     event,
     channels: cfg.channels,
   }))
