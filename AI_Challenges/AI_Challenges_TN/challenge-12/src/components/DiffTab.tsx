@@ -114,12 +114,12 @@ export default function DiffTab() {
             {d.diff && Object.keys(d.diff).length > 0 && (
               <div className="space-y-2">
                 {Object.entries(d.diff).map(([key, val]) => (
-                  <div key={key} className="grid grid-cols-3 gap-2 text-xs">
-                    <div className="font-semibold text-gray-600">{key}</div>
-                    <div className="bg-blue-100 rounded px-2 py-1 font-mono text-blue-800">
+                  <div key={key} className="grid grid-cols-3 gap-2 text-xs min-w-0">
+                    <div className="font-semibold text-gray-600 min-w-0 break-words">{key}</div>
+                    <div className="bg-blue-100 rounded px-2 py-1 font-mono text-blue-800 min-w-0 break-all">
                       {countryA}: {JSON.stringify(val.a)}
                     </div>
-                    <div className="bg-purple-100 rounded px-2 py-1 font-mono text-purple-800">
+                    <div className="bg-purple-100 rounded px-2 py-1 font-mono text-purple-800 min-w-0 break-all">
                       {countryB}: {JSON.stringify(val.b)}
                     </div>
                   </div>

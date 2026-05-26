@@ -15,8 +15,8 @@ export default function App() {
   const [tab, setTab] = useState<TabId>('validate');
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-100 py-8 flex flex-col items-center">
+      <div className="w-full max-w-4xl px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
