@@ -1,9 +1,8 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
-import { glossary, CATEGORIES } from "./data/glossary";
+import { glossary } from "./data/glossary";
 import type { Term } from "./data/glossary";
 import { filterTerms } from "./utils/search";
 import SearchBar from "./components/SearchBar";
-import CategorySection from "./components/CategorySection";
 import TermModal from "./components/TermModal";
 import AlphabetSidebar from "./components/AlphabetSidebar";
 import TermCard from "./components/TermCard";
@@ -35,13 +34,6 @@ export default function App() {
 
   const results = useMemo(() => filterTerms(query, glossary), [query]);
 
-  const termsByCategory = useMemo(() => {
-    const map = new Map<string, Term[]>();
-    for (const cat of CATEGORIES) map.set(cat, []);
-    for (const { term } of results) map.get(term.category)?.push(term);
-    return map;
-  }, [results]);
-
   const activeLetters = useMemo(() => {
     const set = new Set<string>();
     for (const { term } of results) set.add(term.name[0].toUpperCase());
@@ -55,7 +47,7 @@ export default function App() {
       if (!map.has(l)) map.set(l, []);
       map.get(l)!.push(term);
     }
-    return map;
+    return new Map([...map.entries()].sort());
   }, [results]);
 
   const letterRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -78,7 +70,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 text-center mb-1">Insurance Glossary</h1>
           <p className="text-gray-500 text-center text-sm mb-6">
-            {glossary.length} terms across {CATEGORIES.length} categories
+            {glossary.length} terms across {new Set(glossary.map(t => t.category)).size} categories
           </p>
           <SearchBar value={rawQuery} onChange={setRawQuery} />
         </div>
@@ -123,31 +115,26 @@ export default function App() {
               </div>
             ) : (
               <>
-                {Array.from(termsByLetter.keys())
-                  .sort()
-                  .map((letter) => (
-                    <div
-                      key={letter}
-                      ref={(el) => {
-                        if (el) letterRefs.current.set(letter, el);
-                        else letterRefs.current.delete(letter);
-                      }}
-                      id={`letter-${letter}`}
-                    />
-                  ))}
-                {CATEGORIES.map((cat) => {
-                  const terms = termsByCategory.get(cat) ?? [];
-                  if (terms.length === 0) return null;
-                  return (
-                    <CategorySection
-                      key={cat}
-                      category={cat}
-                      terms={terms}
-                      query={query}
-                      onSelect={setSelectedTerm}
-                    />
-                  );
-                })}
+                {Array.from(termsByLetter.entries()).map(([letter, terms]) => (
+                  <div
+                    key={letter}
+                    ref={(el) => {
+                      if (el) letterRefs.current.set(letter, el);
+                      else letterRefs.current.delete(letter);
+                    }}
+                    id={`letter-${letter}`}
+                    className="mb-6"
+                  >
+                    <h2 className="text-lg font-bold text-blue-700 border-b border-blue-100 pb-1 mb-3">
+                      {letter}
+                    </h2>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {terms.map((term) => (
+                        <TermCard key={term.id} term={term} query={query} onClick={() => setSelectedTerm(term)} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </>
             )}
           </div>
