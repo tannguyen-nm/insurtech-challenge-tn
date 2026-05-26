@@ -1,4 +1,4 @@
-export const CLAIM_TYPES = ['OUTPATIENT', 'INPATIENT', 'DENTAL', 'LIFE'] as const
+export const CLAIM_TYPES = ['OUTPATIENT', 'INPATIENT', 'DENTAL', 'LIFE', 'MATERNITY', 'OPTICAL'] as const
 export const NOTIFICATION_EVENTS = [
   'CLAIM_SUBMITTED',
   'CLAIM_APPROVED',
